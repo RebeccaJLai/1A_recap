@@ -112,7 +112,7 @@ cars_arranged <- arrange(cars_joined, desc(cty))
 
 Which car should I be buying then? And how much will it cost me? 
 
-A 2001 Volkswagen New Beetle at £4095! I wonder what colour it is...
+A 2001 Volkswagen New Beetle at Â£4095! I wonder what colour it is...
 
 ## Graph it!
 
