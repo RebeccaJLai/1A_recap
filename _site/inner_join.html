@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>inner_join()</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Rebecca's Stuff</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Basics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_and_file_types.html">R &amp; its file types</a>
+    </li>
+    <li>
+      <a href="packages.html">Sessions, directories, functions &amp; packages</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Functions We Used
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="read_csv.html">read_csv()</a>
+    </li>
+    <li>
+      <a href="filter.html">filter()</a>
+    </li>
+    <li>
+      <a href="arrange.html">arrange()</a>
+    </li>
+    <li>
+      <a href="select.html">select()</a>
+    </li>
+    <li>
+      <a href="mutate.html">mutate()</a>
+    </li>
+    <li>
+      <a href="group_by.html">group_by()</a>
+    </li>
+    <li>
+      <a href="summarise.html">summarise()</a>
+    </li>
+    <li>
+      <a href="ggplot.html">ggplot()</a>
+    </li>
+    <li>
+      <a href="inner_join.html">inner_join()</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="construction.html">Diagnosing Errors</a>
+    </li>
+    <li>
+      <a href="construction.html">Adjusting Appearance of RStudio</a>
+    </li>
+    <li>
+      <a href="construction.html">Reproduciblilty Issues</a>
+    </li>
+    <li>
+      <a href="construction.html">Playtime with Built in Data</a>
+    </li>
+    <li>
+      <a href="construction.html">Pipelines</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="in_class_cars_task.html">1A Recap: Cars Task</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="feedback.html">Feedback</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">inner_join()</h1>
+
+</div>
+
+
+<script src="reveal_extra.js"></script>
+<p>Since the data we have been working with is nice and tidy in a single table, we will need to use something else as an example. You will also be seeing more of <code>inner_join()</code> in the first lab in the second semester. This section is to serve as more of a primer for what is coming shortly.</p>
+<p>Using a simpler example also helps you wrap your head around these concepts when you first encounter them too because you can see all the rows and columns and easily count them. It makes it much easier to take stock of the inputs and outputs.</p>
+<div id="what-is-a-join" class="section level1">
+<h1>What is a join?</h1>
+<p>So far the functions that we have been using have been what we call <strong>“one table” functions/verbs</strong>. This is because they act upon one data table at a time. <em>If you think back to the first argument for each function it has been the name of the data object that we have wanted to transform.</em></p>
+<p>The data set that we have used came in a single table. This is not always the case, as you found out from the work we did in the first semester. We used a data set that came in two tables and we needed to put these together somehow.</p>
+<p>This is what a join does! <strong>It takes two tables as inputs and combines them to give you one</strong>. For this reason we refer to the join functions as <strong>“two table” functions/verbs</strong>. For these to make any sense, though, the data in both needs to relate to the other in some way… it needs to be <strong>“relational data”</strong>.</p>
+<div id="types-of-join" class="section level2">
+<h2>Types of join</h2>
+<p>Relational data is not defined by the number of data tables that you have but how the values in them are related to each other. When you are working with this type of data you will (in future) encounter multiple types of joins:</p>
+<ul>
+<li><strong>mutating joins</strong>: changing one data table to include variables from the other</li>
+<li><strong>filtering joins</strong>: remove or retain rows of a data table based upon whether they have a relationship with a row in thw other data table</li>
+<li><strong>set operations</strong>: perform some operation on rows of a data table</li>
+</ul>
+<p>You have already encountered a <strong>mutating join</strong>- <code>inner_join()</code> belongs to this family. The others you will meet at a later point in time.</p>
+</div>
+<div id="how-does-r-see-relations" class="section level2">
+<h2>How does R see relations?</h2>
+<p>In order to join two data tables together in a sensible way and end up with something meaningful they need to be relating to each other in some way. In each data table we need at least one of what we call <strong>key variables</strong>. This is probably best explained in an example.</p>
+</div>
+</div>
+<div id="example" class="section level1">
+<h1>Example</h1>
+<p>Let’s make two small data tables so you can see what I’m talking about:</p>
+<pre class="r"><code># make a data table called &quot;friends&quot; and put in it...
+friends &lt;- tibble(name = c(&quot;Pamela&quot;, &quot;James&quot;, &quot;John&quot;, &quot;Dwave&quot;, &quot;Danielle&quot;, &quot;Rebecca&quot;), 
+                  # a column containing me and my friends names
+                  age = c(33, 35, 36, 32, 28, 32)) 
+                  # a column containing our ages
+
+# make a table called &quot;pets&quot; and put in it...
+pets &lt;- tibble(name = c(&quot;Pamela&quot;, &quot;James&quot;, &quot;Danielle&quot;, &quot;Rebecca&quot;, &quot;Rebecca&quot;), 
+               # a column containing me and my friends names
+              pet_name = c(&quot;Leon&quot;, &quot;Leon&quot;, &quot;Cleo&quot;, &quot;John&quot;, &quot;Eddie&quot;),
+              # a column containing the names of our pets 
+              pet_type = c(&quot;doggo&quot;, &quot;doggo&quot;, &quot;doggo&quot;, &quot;rattie&quot;, &quot;rattie&quot;))</code></pre>
+<p>Have a look at the tables and see how they differ from one another:</p>
+<pre class="r"><code># head is a nice function which lets you see column headers, data type and some of the rows
+# you&#39;re not required to learn it right now, but it can be useful
+head(friends)</code></pre>
+<pre><code>## # A tibble: 6 x 2
+##   name       age
+##   &lt;chr&gt;    &lt;dbl&gt;
+## 1 Pamela      33
+## 2 James       35
+## 3 John        36
+## 4 Dwave       32
+## 5 Danielle    28
+## 6 Rebecca     32</code></pre>
+<pre class="r"><code>head(pets)</code></pre>
+<pre><code>## # A tibble: 5 x 3
+##   name     pet_name pet_type
+##   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   
+## 1 Pamela   Leon     doggo   
+## 2 James    Leon     doggo   
+## 3 Danielle Cleo     doggo   
+## 4 Rebecca  John     rattie  
+## 5 Rebecca  Eddie    rattie</code></pre>
+<div id="key-variable" class="section level2">
+<h2>Key Variable</h2>
+<p>A key variable is a variable (one of our columns) which is common across the data tables that we want to join.</p>
+<p>Our key variable here is <strong>name</strong> as it appears in both data sets, but it also indicates a relationship (albeit between a person and their pets).</p>
+</div>
+<div id="joining-the-tables-together" class="section level2">
+<h2>Joining the tables together</h2>
+<p>Let’s use <code>inner_join()</code> to put the two tables together:</p>
+<pre class="r"><code># create a new table to store the outcome of our join in
+friends_with_pets &lt;- inner_join(friends, pets, by = &quot;name&quot;)</code></pre>
+<p>This is the code for joining the two tables together. Let’s break it down in the same way that we have done on previous pages:</p>
+<ul>
+<li><strong>friends</strong>: first argument, the name of the first table, the one that we want to join <em>onto</em>. Also sometimes called the <strong>L</strong>eft <strong>H</strong>and <strong>S</strong>ide (or <strong>LHS</strong>) in error messages.</li>
+<li><strong>pets</strong>: second argument, the name of the second table, the one that we want to join <em>from</em>. Also sometimes called the <strong>R</strong>ight <strong>H</strong>and <strong>S</strong>ide (or <strong>RHS</strong>) in error messages.</li>
+<li><strong>by = “name”</strong>: third argument, where “<code>by =</code>” tells R that you are about to define key variables, followed by (in our case) a single key variable. If you want to define multiple key variables you would type <code>by = c("variable_1_name", "variable_2_name", etc)</code>.</li>
+</ul>
+<p>Let’s have a look at what our resulting table ended up looking like:</p>
+<pre class="r"><code>head(friends_with_pets)</code></pre>
+<pre><code>## # A tibble: 5 x 4
+##   name       age pet_name pet_type
+##   &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;   
+## 1 Pamela      33 Leon     doggo   
+## 2 James       35 Leon     doggo   
+## 3 Danielle    28 Cleo     doggo   
+## 4 Rebecca     32 John     rattie  
+## 5 Rebecca     32 Eddie    rattie</code></pre>
+<p>A few things to note in this case:</p>
+<ul>
+<li><strong>all variables from the first table have been retained</strong> (name and age). The table has been <em>mutated</em> by joining variables from the second table (pet_name and pet_type.</li>
+<li><p><strong>size difference</strong>. In our case our resulting table is not the same size as the original <code>friends</code> table, some rows are gone! This is due to John and Dwave not having any pets in the second table… the resulting joined table does not keep their rows. I also have two pet ratties, which means I get two “observations”, each in it’s own row.</p>
+<p>This is because <code>inner_join()</code> only returns the rows that have matches in both tables!</p></li>
+</ul>
+<p>Here is a nice image I stole from Dr Barr, where x represents our first data table that we are mutating <em>onto</em> and y represents our second data table that we are mutating <em>from</em>:</p>
+<center>
+<img src="images/inner_join.png" width="400">
+</center>
+<p><br></p>
+<p>The yellow section, the data overlap between the two tables, is the output of the <code>inner_join()</code> function! It will return a table with all columns from both tables, but only keep the rows which have entries in both!</p>
+<hr />
+<p>Well done! This is you officially caught up with all the first semester material. Why not try a task from the task menu to test your skills? Solutions are provided at the bottom of the page.</p>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

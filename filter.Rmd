@@ -1,0 +1,71 @@
+---
+title: "filter()"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<script src="reveal_extra.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+dat <- read_csv("DeBruine_2005_ProcB.csv")
+
+```
+
+# Calculating our self-preference scores
+
+Our dependent variable in this case is not something that we directly measured, but a level of self-preference generated from the difference between choosing the self-resembling facial morphs over choosing the non-self-resembling facial morphs.
+
+We have the raw data for each type of choice, but we have yet to calculate the difference score that is the self-preference metric.
+
+Before we can have a meaningful look at our data we need to do a little pre-processing first.
+
+## filter(): "filters" rows according to criteria you set
+
+Lots of participants come through our doors, but some will have to be excluded for various reasons. 
+
+Let's say for example that our *ethical approval* only allowed us to use the data from participants who were age 18 and over. Our examination of this data is secondary, it was gathered by someone else for some other reason and we are now using it for our own purposes. As we didn't gather the data we had no control over the ages of people who took part.
+
+In this case we could use `filter()` to remove the participants who were younger than our cut off age.
+
+```{r}
+dat_filtered <- filter(dat, age >= 18)
+# Note: no longer using the name of the csv file, but the object created by reading it into R
+```
+
+- The first argument to the `filter()` function is the tibble that we want it to act on. **This is common across all of the tidyverse functions that we are going to be using**. 
+- The second argument contains the criteria by which we want to assess each row by... here where *the column age is greater than or equal to 18*.
+
+<center><button onclick="revealExtra(extraName = 'operators')">Reveal More: "Operators"</button></center>
+
+<div class="extras" id="operators">
+
+___
+
+Here we used the terminology `>=`, this is a **relational operator** and these are commonly used in this sort of context. There are also **arithmetic opertors**, **logical operators** and one more class you have already seen **assignment operators**.
+
+<a href="https://www.datamentor.io/r-programming/operator/">Datamentor</a> has a useful reference guide, in addition to those found on the dplyr cheatsheet.
+
+___
+
+</div>
+
+Look at the tibble. See that the number of rows has gone down from 144 to 133. There were 11 rows of data that did not meet the age restriction requirement. We can double check that this has been done properly by using the `arrange()` function, which we will do next.
+
+### Points to remember
+
+- filter acts on *rows*, **not** *columns*
+- we set criteria by which R will assess each row:
+    - if the criteria are met (it is `TRUE`) the row is kept in the data set
+    - if the criteria are not met (it is `FALSE`) the row is discarded
+
+___
+
+We have removed some rows, based on the ages of the participants. Let's double-check that we did what we intended to do by using the next function...
+
+<center> [arrange(): sort rows in ascending or descending order based on column values](arrange.html) </center>

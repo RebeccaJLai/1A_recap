@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Sessions, Directories, Functions and Packages</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Rebecca's Stuff</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Basics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_and_file_types.html">R &amp; its file types</a>
+    </li>
+    <li>
+      <a href="packages.html">Sessions, directories, functions &amp; packages</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Functions We Used
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="read_csv.html">read_csv()</a>
+    </li>
+    <li>
+      <a href="filter.html">filter()</a>
+    </li>
+    <li>
+      <a href="arrange.html">arrange()</a>
+    </li>
+    <li>
+      <a href="select.html">select()</a>
+    </li>
+    <li>
+      <a href="mutate.html">mutate()</a>
+    </li>
+    <li>
+      <a href="group_by.html">group_by()</a>
+    </li>
+    <li>
+      <a href="summarise.html">summarise()</a>
+    </li>
+    <li>
+      <a href="ggplot.html">ggplot()</a>
+    </li>
+    <li>
+      <a href="inner_join.html">inner_join()</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="construction.html">Diagnosing Errors</a>
+    </li>
+    <li>
+      <a href="construction.html">Adjusting Appearance of RStudio</a>
+    </li>
+    <li>
+      <a href="construction.html">Reproduciblilty Issues</a>
+    </li>
+    <li>
+      <a href="construction.html">Playtime with Built in Data</a>
+    </li>
+    <li>
+      <a href="construction.html">Pipelines</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="in_class_cars_task.html">1A Recap: Cars Task</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="feedback.html">Feedback</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Sessions, Directories, Functions and Packages</h1>
+
+</div>
+
+
+<script src="reveal_extra.js"></script>
+<div id="sessions" class="section level1">
+<h1>Sessions</h1>
+<div id="what-is-a-session-in-r" class="section level2">
+<h2>What is a session in R?</h2>
+<p>A <strong>session</strong> in R is a segment of time/workspace/processor time that is dedicated to performing a specific processing or analysis task. It can be difficult to wrap your head around at first, but it helps to draw comparisons with software that we are already familiar with.</p>
+<p>Let’s go back to Microsoft Word as an example. We can have an essay open in one window and class notes opened up in another window. Both are instances of Word, but they are dedicated to two different tasks (essay as one and class notes as the other) which just so happen to be running concurrently.</p>
+<center>
+<img src="images/two_sessions.png">
+</center>
+<p><br></p>
+<p>You can have multiple sessions open in R, but I wouldn’t recommend it because it can become confusing. We can start a new session by going to Session &gt; new session.</p>
+<p>Right now, we are much more interested in a task which is closely linked to this idea- restarting your current session!</p>
+<center>
+<img src="images/session_menu.png">
+</center>
+<p><br></p>
+</div>
+<div id="restarting-your-current-session" class="section level2">
+<h2>Restarting Your Current Session</h2>
+<p>This can be done by going to <strong>Session &gt; Restart R</strong>, see the image above.</p>
+<p>Restarting your R session does some important things:</p>
+<ul>
+<li>it clears the environment of objects if R is set up in a maximally reproducible way- so make sure your script is saved so that you keep the instructions for making them again. If all goes well you can recreate all of the objects by running the code again.</li>
+<li>it “unloads” packages that you have called from the library using the <code>library()</code> function.</li>
+<li>If you encounter an error with an unknown source sometimes restarting the session can clear the problem- sometimes there can be objects in the environment which are hidden and can cause problems.</li>
+<li>It allows you to test the reproducibility of the script that you are writing by clearing the environment and starting over with only the instructions you have provided, without the possibility of “contamination” of objects inadvertently created in other ways, such as playing in the console.</li>
+</ul>
+</div>
+</div>
+<div id="working-directory" class="section level1">
+<h1>Working Directory</h1>
+<div id="what-is-a-directory" class="section level2">
+<h2>What is a directory?</h2>
+<p>A <strong>directory</strong> is a technical term that we use for a location on your computer’s filing system. These are important because the machine needs to know how to access the files stored within it.</p>
+<p>These are commonly represented by a file <strong>“path”</strong>, which essentially tells you where items are located. These can be found by pressing <strong>Command + i</strong> in Mac OS Finder, or the <strong>navigation bar</strong> in a Windows Explorer window.</p>
+<p>Here is the folder from my OneDrive cloud storage accessed on both my Mac and my Windows PC. Notice how the paths differ… they are on different machines!</p>
+<center>
+<p><img src="images/mac_path.png" alt="Finding your path on a Mac" width="175" > <img src="images/windows_path.png" alt="Finding your path on a Windows PC" width="602"> </centre> <br></p>
+<hr />
+<p><strong>This difference in paths is why we don’t set the working directory in the script, but rather do it manually. </strong></p>
+<p><strong>If we share our code between different users, or in my case my work and home computers with the same user, the files don’t always have the same paths!</strong></p>
+<hr />
+</div>
+<div id="what-is-the-working-directory" class="section level2">
+<h2>What is the working directory?</h2>
+<p>The <strong>working directory</strong> is the current directory in which you are working, which should contain all of the files that you currently need to work with. I think about it in terms of communicating…</p>
+<p>Imagine I want to speak to my supervisor. I can stand in my office and talk, but that wont work. If I want to speak to her, I need to go to her office. In the same way, R needs to go to the same location of the files, otherwise it’s in an empty room talking to itself just like me.</p>
+</div>
+<div id="setting-the-working-directory" class="section level2">
+<h2>Setting the working directory</h2>
+<p>We can move R into the same room as the files that we want to use by setting the working directory by going to <strong>Session &gt; Set Working Directory &gt; Choose Directory</strong>, as below:</p>
+<center>
+<img src="images/mac_setwd.png">
+</center>
+<p><br></p>
+<hr />
+<p><strong>Note</strong>: it is good practice to group all files for a project in the same directory, for the sake of organisation. If your script or RMarkdown file is already located within the desired working directory, you can select <strong>“To Source File Location”</strong> instead… because everything you need is already there. It’s a nice shortcut.</p>
+<p>You should also know that when you “knit” an RMarkdown file, the default working directory <strong>is set to</strong> the <strong>source file location</strong>… so if, like me right now, you are writing a file in markdown that must be “knitted” to achieve the desired outcome you should put all the files in the same directory as the RMarkdown file.</p>
+<hr />
+<p><strong>Setting your working directory is the first thing you should do when you want to start working.</strong></p>
+<hr />
+</div>
+</div>
+<div id="what-is-a-function" class="section level1">
+<h1>What is a function?</h1>
+<p>If I were to tell you to jump, you would understand the action I was asking you to perform wouldn’t you?</p>
+<p>In short this is what a <strong>function</strong> is for R… it’s a command that tells R to do something specific. It just does it in a way that R understands.</p>
+<div id="the-anatomy-of-a-function" class="section level2">
+<h2>The Anatomy of a function</h2>
+<p>Functions are made up of different parts See the code chunk below:</p>
+<pre class="r"><code>function_name(argument1, argument2, etc...)</code></pre>
+<p>The part outside of the brackets is the command. This tells R exactly what to do- <em>the action to be performed</em>. The parts inside the brackets are called <strong>arguments</strong>… these provide information to R on what to perform the actions on (the <strong>input</strong> to the function) and can provide information on slight changes to the actions.</p>
+<p>Once your function has taken the <strong>input</strong> and run the command on it it will produce an <strong>output</strong> of some sort.</p>
+<p>As we progress through this tutorial and future tasks see if you can spot the functions, the arguments, the inputs and the outputs. Breaking tasks down in this way might help you understand some tricky tasks.</p>
+</div>
+</div>
+<div id="packages" class="section level1">
+<h1>Packages <img src="images/hex-tidyverse.png" alt="Tidyverse Logo" height="50" width="50" align="right"> <br></h1>
+<div id="what-are-packages" class="section level2">
+<h2>What are packages?</h2>
+<p>Think of packages as extensions to R. It’s like the difference between your iPhone or Android operating system (OS) and the apps that you have installed. Using the phone always uses the OS, but doesn’t always use Instagram. You need to tell the phone to open thatby pushing a button. R uses code instead of a button, we just need to get to grips with the correct code to use.</p>
+<p>Whilst R is incredibly useful and is used in a wide variety of settings, it does not universally fulfil all needs. Packages are written by people who see a gap in utility that needs to be plugged.</p>
+<p>One such package is “Tidyverse”, which is made to make data handling and processing easier. This is the package that you have been using this semester, and will likely use for the duration of time in GU Psych. Tidyverse is actually a meta-package, a collection of many useful packages.</p>
+<p>This isn’t something that comes installed as standard, so you need to install it yourself <strong>when using your own machine</strong>.</p>
+<hr />
+<p><strong>Never install a package on a university machine… all packages required for the coursework are already installed on our machines. </strong></p>
+<p><strong>If you are using a machine in the library and something you need is missing you should speak to IT services in the level 4 annex.</strong></p>
+<hr />
+<div id="installing-a-package" class="section level3">
+<h3>Installing a package</h3>
+<p>If you ever need to install a package <strong>on your own computer</strong> this is how it’s done. It should only need to be done once, unless the package becomes uninstalled for any reason.</p>
+<p>Remember that you can check what packages you have installed in the package tab.</p>
+<p>Let’s use Tidyverse as an example because that’s the first package we have encountered and we’ve been using it all semester.</p>
+<p>Type the function <code>install.packages()</code> into the <strong>console</strong>, use the input argument “tidyverse”- note the quotation marks!</p>
+<pre class="r"><code>install.packages(&quot;tidyverse&quot;)</code></pre>
+<p>The output in this case would be the installation of tidyverse.</p>
+<p>R will download and install the package automatically from a specific place (a <a href="https://cran.r-project.org/">CRAN mirror</a>, if you’re curious).</p>
+<hr />
+<p><strong>Never put this code in a script. If you re-run the script, it will re-run this code and attempt to install the package again. If you share your code and someone else runs it, it will attempt to install it on their machine too- which is at best rude, and at worst can break things!</strong></p>
+<hr />
+</div>
+<div id="loading-a-package" class="section level3">
+<h3>Loading a package</h3>
+<p>Once the package is installed you’ve passed the first hurdle. If you are using a university machine you’ve side-stepped that hurdle. The next one is to load it so that we can use it!</p>
+<p>This is done with the <code>library()</code> function, taking the input of the unquoted name of the package and turning it into the output of loaded package.</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<p>You may get some messages when you load up a package. These are not errors unless they are specfically labelled as such, but you should still read and get used to what they are telling you.</p>
+<p>When you load Tidyverse you see some messages as above. As Tidyverse is a metapackage loading it from the library actually loads in multiple packages. The names of these are displayed in the output under the section “Attaching Packages”.</p>
+<p>There are also a number of functions within Tidyverse that have the same names as other functions, which results in the section called “Conflicts”. These don’t overwrite the pre-existing ones, but make the Tidyverse ones the default ones to use.</p>
+<center>
+<button onclick="revealExtra(extraName = &#39;namespace&#39;)">
+Reveal More: “namespace”
+</button>
+</center>
+<div id="namespace" class="extras">
+<p><br></p>
+<hr />
+<p>When a package has a function that has the same name as a function defined elsewhere R needs to know which one you mean when you use that code. We do this by using something called the package “namespace”- its essentially a storage space for names that every package will have!</p>
+<p>For example, when loading Tidyverse the <code>filter()</code> function results in a conflict, it masks the previously set <code>filter()</code> from a package called stats.</p>
+<p>However we can still use the <code>stats</code> version by referring to the namespace of <code>stats</code>. This is done by typing in <code>stats::filter()</code> instead of <code>filter()</code>. The <code>stats</code> part tells R to look at the namespace of the package <code>stats</code>, followed by the double colon and the name of the function.</p>
+<p>You are very unlikely to ever need to use the <code>stats::filter()</code> version, it is a function used in time-series analysis, but it this is a good introduction to the concept of namespace.</p>
+<hr />
+</div>
+<p><br></p>
+<p>Now that we have a script or RMarkdown open and have been able to set up the session we can start working by reading in data using the function <code>read_csv()</code>!</p>
+<center>
+<a href="read_csv.html">Next: Functions We Used &gt; read_csv()</a>
+</center>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

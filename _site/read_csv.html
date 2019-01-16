@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>read_csv()</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Rebecca's Stuff</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Basics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_and_file_types.html">R &amp; its file types</a>
+    </li>
+    <li>
+      <a href="packages.html">Sessions, directories, functions &amp; packages</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Functions We Used
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="read_csv.html">read_csv()</a>
+    </li>
+    <li>
+      <a href="filter.html">filter()</a>
+    </li>
+    <li>
+      <a href="arrange.html">arrange()</a>
+    </li>
+    <li>
+      <a href="select.html">select()</a>
+    </li>
+    <li>
+      <a href="mutate.html">mutate()</a>
+    </li>
+    <li>
+      <a href="group_by.html">group_by()</a>
+    </li>
+    <li>
+      <a href="summarise.html">summarise()</a>
+    </li>
+    <li>
+      <a href="ggplot.html">ggplot()</a>
+    </li>
+    <li>
+      <a href="inner_join.html">inner_join()</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="construction.html">Diagnosing Errors</a>
+    </li>
+    <li>
+      <a href="construction.html">Adjusting Appearance of RStudio</a>
+    </li>
+    <li>
+      <a href="construction.html">Reproduciblilty Issues</a>
+    </li>
+    <li>
+      <a href="construction.html">Playtime with Built in Data</a>
+    </li>
+    <li>
+      <a href="construction.html">Pipelines</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="in_class_cars_task.html">1A Recap: Cars Task</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="feedback.html">Feedback</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">read_csv()</h1>
+
+</div>
+
+
+<script src="reveal_extra.js"></script>
+<p>Now that we are familiar with the setup of R, we can get to the task at hand. We want to process some data and get to the point where we can answer a question that we have from the data.</p>
+<div id="data" class="section level1">
+<h1>Data!</h1>
+<p>For the purposes of this demonstration let’s look at this data from Prof. DeBruine’s 2005 paper “Trustworthy but not lust-worthy: Context-specific effects of facial resemblance”. The paper and data can be accessed <a href="https://osf.io/hcs4a/">here</a>.</p>
+<p>We can download this data directly from the Open Science Foundation (OSF) by clicking on the appropriate file in the “Files” list, the file with the extension “.csv”:</p>
+<center>
+<img src="images/file_list.png">
+</center>
+<p><br></p>
+<p>This takes us to a new page where you click the “download” button on the top right of the page:</p>
+<center>
+<img src="images/download_button.png">
+</center>
+<p><br></p>
+<div id="what-are-.csv-files" class="section level2">
+<h2>What are .csv files?</h2>
+<p>Data files are stored in many different formats. One of the more commonly used, disseminated and supported types that you will come across are <strong>C</strong>omma <strong>S</strong>eparated <strong>V</strong>ariable files.</p>
+<p>Again, CSVs are just regular old plain text files, but the file extension tells associated programs what to do with it. Let’s look at the file in two programs, notepad and excel, and compare the differences:</p>
+<center>
+<img src="images/csv_two_views.png">
+</center>
+<p><br></p>
+<p>This is exactly the same file. We can see that it is a plain text file, but that Excel understands that the commas separate the variables (they are “delimited” by the commas).</p>
+<p>Now we just need to move it into R, and we do this using the function <code>read_csv()</code> that we learned in semester 1.</p>
+</div>
+<div id="prerequistites" class="section level2">
+<h2>Prerequistites</h2>
+<p>Before we can load in the data, make sure you have done the following steps from the previously covered topics:</p>
+<ul>
+<li>opened and saved a new script or RMarkdown file in a directory
+<ul>
+<li>if you are using an RMarkdown file, make sure you have a deleted the example and established a new chunk</li>
+</ul></li>
+<li>used <code>library(tidyverse)</code> to load the Tidyverse package
+<ul>
+<li><strong>code is sequential… you need to run the code at the start if code which follows is dependent on it!</strong> Additionally, if you change previous code you need to re-run otherwise changes you have made wont impact the other tasks you have performed “downstream”</li>
+</ul></li>
+<li>dowloaded the data file into this same directory</li>
+<li>set the working directory using an appropriate method</li>
+</ul>
+</div>
+</div>
+<div id="read_csv" class="section level1">
+<h1>read_csv()</h1>
+<div id="source-of-the-function" class="section level2">
+<h2>Source of the function</h2>
+<p>The function <code>read_csv()</code> comes from the tidyverse package, so the package must be loaded before it can be used.</p>
+<p>If you try to use it without loading tidyverse you will get an error message:</p>
+<center>
+<img src="images/read_csv_not_found.PNG">
+</center>
+<hr />
+<p><strong>One common error from the homeworks was to use the function <code>read.csv()</code> instead of the required <code>read_csv()</code>. Whilst these are very similar, they do not create identical objects in the environment when loading in data.</strong></p>
+<p><strong>Some important differences:</strong></p>
+<ul>
+<li><code>read_csv()</code> will create a type of object called a “tibble”. <code>read.csv()</code> creates a “data frame”</li>
+<li><code>read_csv()</code> is faster when you are using very large data sets</li>
+<li><code>read_csv()</code> does not turn cells with characters into something called “factors” by default, <code>read.csv()</code> does. This will become an important consideration in later course content.</li>
+</ul>
+<p><strong>If you are being taught to use one function over another to perform a task then try to stick to that function, it’s been set that way for a reason. Try to establish good habits as you learn! :)</strong></p>
+<hr />
+</div>
+<div id="arguments-to-the-function" class="section level2">
+<h2>Arguments to the function</h2>
+<div id="the-help-file" class="section level3">
+<h3>The Help File</h3>
+<p>Let’s have a look at the help file for <code>read_csv()</code>:</p>
+<center>
+<img src="images/read_csv_help.png">
+</center>
+<p><br></p>
+<p>As you can see this help file covers more than the one function we are after. It also covers multiple related functions. This happens in many help files, you just need to refer to the information that you are looking for, rather than the parts which are irrelevant to the current task.</p>
+<p>The part we want is below. It names the function and gives the names of the arguments within the brackets. If we scroll down even further we have a section that explains what each argument is and does. These are for all of the functions, so we only need to look at the ones that are mentioned within the brackets of the function we are interested in.</p>
+<center>
+<img src="images/read_csv_help_specific.png">
+</center>
+<p><br></p>
+<p>Let’s have a look at the <strong>input argment</strong> relevant to the function we are using:</p>
+<ul>
+<li><p><strong>file</strong>: This is the <strong>input</strong> for the function, in our case it’s the file that we downloaded from the OSF.</p>
+<p><em>You’ll be relieved to hear that this is the only one we are interested in <strong>for now</strong>!</em></p></li>
+</ul>
+<p><strong><em>The rest make changes to how the function is carried out. You’re not required to know about these right now and we don’t want to overload you, but if you want more information click the “Reveal More” button below.</em></strong></p>
+<center>
+<button onclick="revealExtra(extraName = &#39;CSVMore&#39;)">
+Reveal More: read_csv() arguments
+</button>
+</center>
+<div id="CSVMore" class="extras">
+<p><br></p>
+<hr />
+<ul>
+<li><strong>col_names</strong>: set to <code>TRUE</code> as <em>default</em>. Takes the entries of first row of the CSV file and uses them as the column headers.</li>
+<li><strong>col_types</strong>: set to <code>NULL</code> as <em>default</em>.</li>
+<li><strong>locale</strong>: some information, like formatting of dates and character used to denote decimals, varies by geographical location. This argument lets you change away from the <em>default</em> US formats.</li>
+<li><strong>na</strong>: stands for “not available”… a missing data point! Like if a participant skips a question, we don’t know an answer! This argument specifies what represents a missing data point, <em>default</em> is “blank” and “NA”.</li>
+<li><strong>quoted_na</strong>: <em>default</em> is <code>TRUE</code>, treats "" and “NA” also as na</li>
+<li><strong>quote</strong>: the character which is used as a quotation mark. Default is “… but it looks weird here, represented as "! The slash tells R it should be looking at” as a character, and <em>not</em> as an opening quotation mark. It stops R from looking for the missing closing mark.</li>
+<li><strong>comment</strong>: a character used to denote a comment. We can set a character that tells R something is a comment in the file, much like # is in your script.</li>
+<li><strong>trim_ws</strong>: <em>default</em> is set to <code>TRUE</code>, takes of any spaces at the start or the end of each entry… leading or trailing “<strong>w</strong>hite<strong>s</strong>pace”.</li>
+<li><strong>skip</strong>: allows you to skip a number of rows before R starts reading data. Allows you to skip any nonsense inserted at the start by your data collection platform.</li>
+<li><strong>n_max</strong>: allows you to set a maximum number of rows to be read. The <em>default</em> is “Inf” (infinite).</li>
+<li><strong>guess_max</strong>: column types are often guessed. This number lets you set the number of rows that R will use to guess the type of data to be put in a column.</li>
+<li><strong>progress</strong>: to display a loading progress bar or not- some files really are that size.</li>
+</ul>
+<hr />
+</div>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="loading-in-the-data" class="section level1">
+<h1>Loading in the data</h1>
+<p>We want to create an object in our environment which contains the data, we do this by using the follwing code:</p>
+<pre class="r"><code>dat &lt;- read_csv(&quot;DeBruine_2005_ProcB.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   id = col_character(),
+##   sex = col_character(),
+##   ethgroup = col_character(),
+##   group = col_character(),
+##   age = col_double(),
+##   t_non = col_double(),
+##   t_self = col_double(),
+##   lt_non = col_double(),
+##   lt_self = col_double(),
+##   st_non = col_double(),
+##   st_self = col_double(),
+##   ybro = col_double(),
+##   ysis = col_double(),
+##   obro = col_double(),
+##   osis = col_double()
+## )</code></pre>
+<p>We can break down the code into separate parts to make it easier to understand:</p>
+<ul>
+<li><strong>dat</strong>: this is the name of the object we will be creating. We don’t call it <code>data</code> because some names are just not good to use, others are “reserved words” and cannot be used (see <code>?reserved</code> for more on these).</li>
+<li><strong>&lt;-</strong>: the technical term for this is the <strong>assignment operator</strong>. You can read it as “in to”. Here it will put the output of the code after it “in to” the object named “dat”.</li>
+<li><strong>read_csv(“DeBruine_2005_ProcB.csv”)</strong>: this is the function, with the input argument specified as the quoted name of the file to read including the file extension.</li>
+</ul>
+<p>See the output starting with “Parsed with column specification:”? This in not an error message, but a notification. It gives you a breakdown how R “sees” each of the columns and the types of data stored within.</p>
+<p>Data “types” are read automatically. Here our columns are of the types:</p>
+<ul>
+<li><strong>col_character()</strong>: character “strings”, saved as characters, even if it contains a character which represents a number.</li>
+<li><strong>col_double()</strong>: a “double precision” number, a number that represents a fractional value (i.e. can contain decimals)</li>
+<li><strong>col_integer()</strong>: a “whole” number, not fractional, cannot contain decimal values</li>
+</ul>
+</div>
+<div id="our-variables" class="section level1">
+<h1>Our Variables</h1>
+<p>Let’s have a look at what we have just loaded into R… our variables are:</p>
+<ul>
+<li><strong>id</strong>: an ID number assigned to each participant</li>
+<li><strong>sex</strong>: self-identified sex of the participant</li>
+<li><strong>ethgroup</strong>: self-identified ethnic group of the participant</li>
+<li><strong>group</strong>: group assignment based on ethnic group and sex</li>
+<li><strong>age</strong>: age of participant at time of the study</li>
+<li><strong>t_non</strong>: times participant picked a non-self-resenbling facial morph as being more trustworthy</li>
+<li><strong>t_self</strong>: times participant picked a self-resembling facial morph as being more trustworthy</li>
+<li><strong>st_non</strong>: times participant picked a non-self-resenbling facial morph as being more attractive for a short term relationship</li>
+<li><strong>st_self</strong>:times participant picked a self-resenbling facial morph as being more attractive for a short term relationship</li>
+<li><strong>y_bro</strong>: number of younger brothers the participant has</li>
+<li><strong>y_sis</strong>: number of younger sisters the participant has</li>
+<li><strong>o_bro</strong>: number of older brothers the participant has</li>
+<li><strong>o_sis</strong>: number of younger brothers the participant has</li>
+</ul>
+<p>Non-self-resembling faces were used as a control, as previous findings have shown that the process of creating facial morphs creates an average of a number of faces which might be more attractive just by virtue of their averageness!</p>
+<div id="aims" class="section level2">
+<h2>Aims</h2>
+<p>Evolutionary theories suggest that we should find self-resembling faces more trustworthy and increase trusting behaviour as a cue of kinship (“inclusive fitness” theory) but less attractive as mating partners in short term mating contexts due to potential detrimental genetic impact on resulting offspring (“optimal outbreeding” theory). In fact, this is exactly the relationship found by Prof. DeBruine.</p>
+<p>We are going to do a few things:</p>
+<ul>
+<li>prepare the R environment for work (loading data, packages, setting up the session etc.)</li>
+<li>calculate a <strong>“self-preference score”</strong> for self-resembling faces (“self” score minus “non” score, or rather the target minus control)</li>
+<li>calculate statistics that describe our participant sample characteristics (<strong>“descriptive statistics”</strong>)</li>
+<li><strong>plot the self-preference scores</strong> to examine if it looks like there is a relationship between those for trustworthiness and short term mating contexts</li>
+</ul>
+</div>
+<div id="our-research-question" class="section level2">
+<h2>Our research question</h2>
+<p><strong>Is there a relationship between self-preference scores for trustworthiness and self-preference scores for short term mating contexts?</strong></p>
+<div id="points-to-remember" class="section level3">
+<h3>Points to remember</h3>
+<ul>
+<li>We are using the <em>tidyverse</em> <code>read_csv()</code>, <strong>not</strong> the base <code>read.csv()</code>.</li>
+<li><span style="color:red">Not all red text is an error message!</span>
+<ul>
+<li>important messages are in red text</li>
+<li>some important messages are errors, but not all (explain the differences between errors, warnings and important information)</li>
+<li>it is important to read error messages- most of the time they give hints as to what has gone wrong!</li>
+</ul></li>
+</ul>
+<hr />
+<p>Now that we have our data and a research question, lets get on to some pre-processing.</p>
+<center>
+<a href="filter.html">filter(): removing rows based on some criteria</a>
+</center>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

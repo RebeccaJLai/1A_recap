@@ -1,0 +1,90 @@
+---
+title: "summarise()"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<script src="reveal_extra.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+dat <- read_csv("DeBruine_2005_ProcB.csv")
+dat_filtered <- filter(dat, age >= 18)
+dat_arranged <- arrange(dat_filtered, age)
+dat_selected <- select(dat_arranged, id, sex, age, t_non, t_self, st_non, st_self)
+dat_mutated <- mutate(dat_arranged, t_diff = t_self - t_non, st_diff = st_self - st_non)
+dat_grouped <- group_by(dat_mutated, sex)
+
+```
+
+## summarise(): summarise information
+
+Now that we have set up the grouping that we need, let's do that useful thing and calculate some numbers about our data set.
+
+Here' we will use the `summarise()` function which creates a summary table out of our large data set, with new column headers.
+
+```{r}
+descriptives <- summarise(dat_grouped, # data - R already knows it's grouped by sex
+                          m_age = mean(age), # one column containing mean ages
+                          n = n()) # second column containing the count of participants
+```
+
+As is usual with the tidyverse functions, the very first argument to the function is the data object to which we want to apply our function. This is the tibble from the previous section which R already understands should be grouped by sex.
+
+We also have two more arguments, and as you can see I've set them out in the more easily readable form with an argument on each line and a comma at the end of each where I want R to keep looking for code to execute.
+
+Let's break these down as we did with mutate:
+
+- **column name**: `m_age` and `n` are both to become column headers in our new table, these will be filled with contents
+- **contents**: `mean(age)` and `n()` are something called **"summary functions"**, which take a series of numbers and use them to calculate and return a single value. The first calculates the *mean age* and the second *counts how many* are in that group. 
+
+These operations are constrained by the grouping information that we set in the previous step. Let's examine the resulting table and see if we can spot what our code created:
+
+```{r}
+print(descriptives)
+```
+
+- `sex` was our grouping factor, which had two levels (male and female).
+- `m_age` was the first column we created, which contains the result for `mean(age)` for level of the grouping facotr.
+- `n` was the column we created, which contains the result of `n()` for each level of the grouping factor.
+
+<center><button onclick="revealExtra(extraName = 'summ_funct')">Reveal More: Summary Functions</button></center> <br>
+
+<div class="extras" id="summ_funct">
+
+___
+
+Summary functions are functions within the `summarise()` function, and each performs its own specialised task. Some of the more common ones are:
+
+Function      |Use
+--------------|--------------------------------------------------------------
+`mean()`      |Calculates the mean average of the variable in the brackets.
+`median()`    |Calculates the median of the variable in the brackets.
+`n()`         |Counts the number of values or rows. **It's brackets are always left empty!**
+`sd()`        |Gives you the standard deviation of the variable in the brackets.
+
+A more comprehensive list of these can be found on the dplyr cheatsheet accessible from the help menu.
+
+___ 
+
+
+</div>
+
+So if we have a look at the table that was just created, we can see that m_age and n are there, and they have contents in the cells below the header. You can also see that the factor that we set as a grouping factor also has its own column header, with each group with it's own row. 
+
+How neat is that?
+
+<center><img src="images/neature_walk.jpg" width="300"></center>
+
+### Points to remember
+
+___
+
+We have our descriptves in the bag- well done! Let us try to visualise our data next.
+
+<center> [ggplot(): a layered graphical system for awesome plots](ggplot.html) </center>

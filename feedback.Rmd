@@ -1,0 +1,16 @@
+---
+title: "Feedback"
+output: html_document
+---
+
+This website was put up in order to help you revise what we covered last semester and help strengthen the knowledge that you have developed so far.
+
+If you would like to provide anonymous feedback, please click on the buttons below and complete a short survey. Your opinion and needs are important.
+
+<br> <br> <br>
+
+<center> **Planning on constructing an experimentum questionnaire, guest login enabled, so that folks can fill it in** 
+
+<br>
+
+For now, if you have any burning comments, you can reach me on Rebecca.Lai@glasgow.ac.uk. </center>

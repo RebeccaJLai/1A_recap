@@ -1,0 +1,53 @@
+---
+title: "select()"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<script src="reveal_extra.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+dat <- read_csv("DeBruine_2005_ProcB.csv")
+dat_filtered <- filter(dat, age >= 18)
+dat_arranged <- arrange(dat_filtered, age)
+
+```
+
+## select(): "selects" columns to keep or discard
+
+This time around we are not going to be using the full data set. This might happen to you a lot if you are using secondary data.
+
+Let's only keep the variables that pertain to the question that we are asking.
+
+Use `select()` to keep the following variables: id, sex, age, t_non, t_self, st_non, st_self
+
+```{r}
+dat_selected <- select(dat_arranged, id, sex, age, t_non, t_self, st_non, st_self)
+```
+
+Here you can see that the function select takes more arguments than you have seen so far.
+
+- The first is the name of the tibble that we are going to be working from. 
+- The rest are the *names of the columns that we want to keep*! **All other columns that go unnamed will be discarded**.
+
+We can also specify the opposite: that is, if we only wanted to discard one column (say `id` just as an example) we could use the code `select(dat_arranged, -id)`. All other columns will be retained in this case, only the named column with the attached minus sign is discarded.
+
+This means that we are saved from typing long lines of code, where mistakes can creep in without us noticing!
+
+### Points to remember
+
+- select acts on *columns*, **not** *rows*
+- be careful of your spelling! It is easy to to get a column name wrong here, in which case the code will not produce anything!
+    - your career as an R user will be plagued with spelling mistakes... mine certainly has been!
+
+___
+
+Unwanted columns have now been removed, let's calculate our self-preference scores
+
+<center> [mutate(): add columns to a data object](mutate.html) </center>

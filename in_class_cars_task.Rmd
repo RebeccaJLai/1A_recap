@@ -1,0 +1,143 @@
+---
+title: "In Class Cars Task"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      eval = FALSE)
+```
+
+# Task
+
+In groups we are going to work through a task. In response to feedback from the reps, it is a less abstract task and so is focused on a real-world question...
+
+**I want to buy a car. Help me pick!**
+
+We are doing this in groups because we will never be coding in a vacuum! We Google things, talk to colleagues, look up discussion boards etc. 
+
+Talking through some tricky stuff can help us wrap our heads around it, and explaining things to others can enhance our own understanding of what we are explaining.
+
+Also to remember to look at the help files if you need to!
+
+## Data
+
+Download the  files <a href="downloadables/cars_for_sale.csv">cars_for_sale.csv</a> and <a href="downloadables/prices.csv">prices.csv</a> and put them in a folder (directory) which you can safely save your work to (H or M drive). The first .csv contains a list of cars for sale with some information that will help us decide and the second .csv their prices.
+
+You should also open a new R script or .Rmd file and save it with an appropriate name in this very same location. *It's just good practice to keep all files for the same project in the same place for ease of access*.
+
+## Setting the Working Directory
+
+Set your working directory by going to `Session > Set Working Directory` and selecting `Choose Directory...`, or `To Source File Location` if all of your files are in the same folder together.
+
+## Required Packages
+
+Load the appropriate package from the library. 
+
+```{r lib}
+
+```
+
+## Reading in our data files
+
+Read in the two .csv files `cars_for_sale.csv` and `prices.csv`.
+
+```{r read_csv}
+cars <- NULL
+prices <- NULL
+```
+
+## Selecting variables to keep or remove
+
+I don't much care about whatever-wheel-drive the vehicle is, or what the highway fuel consumption rate is, and all of the cars on this list are manual gearboxes, so we can bin those three columns. variables.
+
+Remove the columns `trans`, `hwy` and `drv` from the data table `cars`.
+
+```{r}
+cars_selected <- NULL
+```
+
+## Filtering unwanted rows
+
+There are some cars that just don't suit my needs, or plain just don't suit my life or driving style. The car must not be a 2 seater, an SUV or pick-up truck.
+
+Remove rows that relate to the `class` of `2seater`, `suv` and `pickup` from `cars_selected`.
+
+```{r filter}
+cars_filtered <- NULL
+```
+
+## Calculating summary statistics by groups
+
+I want a car that has better than average city fuel consumption. Before we can do that, we need to know what that value is. Additionally, this varies by fuel type.
+
+Group the `cars_filtered` data by fuel type `fl` and calculate the mean for each.
+
+```{r}
+cars_grouped <- NULL
+
+cars_summarised <- NULL
+```
+
+## Creating new columns
+
+Add a column called `lower` to **`cars_filtered`** that gives a `TRUE` if the mean city fuel consumption is greater than or equal to that for the mean of `p` (given in `cars_summarised`), or `FALSE` if it is lower.
+
+**Remember that fuel economy = higher the miles per gallon the better!**
+
+```{r}
+cars_mutated <- NULL
+```
+
+## Joining data tables
+
+Now we need to add the pricing information.
+
+Join `cars_mutated` with `prices`. Note that we have **3** key variables here, `manufacturer`, `model` and `year`!
+
+```{r}
+cars_joined <- NULL
+```
+
+## Arranging our data
+
+Arrange `cars_mutated` by `cty` in descending order.
+
+```{r}
+cars_arranged <- NULL
+```
+
+## Name that Car!
+
+Which car should I be buying then? And how much will it cost me? 
+
+## Graph it!
+
+Make a scatterplot of the `cty` fuel consumption on the x axis against `displ` engine displacement (in litres) on the y axis.
+
+Brownie points for anyone who can level up the graph by making the points different colours for those above and below the mean for petrol cars.
+
+```{r scatterplot}
+
+```
+
+# Done?
+
+Want to check your work? Right click <a href="downloadables/cars_1a_SOLUTIONS.Rmd">solutions</a>and select "save as" to download the .Rmd.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,140 @@
+---
+title: "inner_join()"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<script src="reveal_extra.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+
+```
+
+Since the data we have been working with is nice and tidy in a single table, we will need to use something else as an example. You will also be seeing more of `inner_join()` in the first lab in the second semester. This section is to serve as more of a primer for what is coming shortly.
+
+Using a simpler example also helps you wrap your head around these concepts when you first encounter them too because you can see all the rows and columns and easily count them. It makes it much easier to take stock of the inputs and outputs.
+
+# What is a join?
+
+So far the functions that we have been using have been what we call **"one table" functions/verbs**. This is because they act upon one data table at a time. *If you think back to the first argument for each function it has been the name of the data object that we have wanted to transform.*
+
+The data set that we have used came in a single table. This is not always the case, as you found out from the work we did in the first semester. We used a data set that came in two tables and we needed to put these together somehow.
+
+This is what a join does! **It takes two tables as inputs and combines them to give you one**. For this reason we refer to the join functions as **"two table" functions/verbs**. For these to make any sense, though, the data in both needs to relate to the other in some way... it needs to be **"relational data"**.
+
+## Types of join
+
+Relational data is not defined by the number of data tables that you have but how the values in them are related to each other. When you are working with this type of data you will (in future) encounter multiple types of joins:
+
+- **mutating joins**: changing one data table to include variables from the other
+- **filtering joins**: remove or retain rows of a data table based upon whether they have a relationship with a row in thw other data table
+- **set operations**: perform some operation on rows of a data table
+
+You have already encountered a **mutating join**- `inner_join()` belongs to this family. The others you will meet at a later point in time.
+
+## How does R see relations?
+
+In order to join two data tables together in a sensible way and end up with something meaningful they need to be relating to each other in some way. In each data table we need at least one of what we call **key variables**. This is probably best explained in an example.
+
+# Example
+
+Let's make two small data tables so you can see what I'm talking about:
+
+```{r}
+# make a data table called "friends" and put in it...
+friends <- tibble(name = c("Pamela", "James", "John", "Dwave", "Danielle", "Rebecca"), 
+                  # a column containing me and my friends names
+                  age = c(33, 35, 36, 32, 28, 32)) 
+                  # a column containing our ages
+
+# make a table called "pets" and put in it...
+pets <- tibble(name = c("Pamela", "James", "Danielle", "Rebecca", "Rebecca"), 
+               # a column containing me and my friends names
+              pet_name = c("Leon", "Leon", "Cleo", "John", "Eddie"),
+              # a column containing the names of our pets 
+              pet_type = c("doggo", "doggo", "doggo", "rattie", "rattie"))
+
+```
+
+Have a look at the tables and see how they differ from one another:
+
+```{r}
+# head is a nice function which lets you see column headers, data type and some of the rows
+# you're not required to learn it right now, but it can be useful
+head(friends)
+head(pets)
+```
+
+## Key Variable
+
+A key variable is a variable (one of our columns) which is common across the data tables that we want to join.
+
+Our key variable here is **name** as it appears in both data sets, but it also indicates a relationship (albeit between a person and their pets).
+
+## Joining the tables together
+
+Let's use `inner_join()` to put the two tables together:
+
+```{r}
+# create a new table to store the outcome of our join in
+friends_with_pets <- inner_join(friends, pets, by = "name")
+```
+
+This is the code for joining the two tables together. Let's break it down in the same way that we have done on previous pages:
+
+- **friends**: first argument, the name of the first table, the one that we want to join *onto*. Also sometimes called the **L**eft **H**and **S**ide (or **LHS**) in error messages.
+- **pets**: second argument, the name of the second table, the one that we want to join *from*. Also sometimes called the **R**ight **H**and **S**ide (or **RHS**) in error messages.
+- **by = "name"**: third argument, where "`by =`" tells R that you are about to define key variables, followed by (in our case) a single key variable. If you want to define multiple key variables you would type `by = c("variable_1_name", "variable_2_name", etc)`.
+
+Let's have a look at what our resulting table ended up looking like:
+
+```{r}
+head(friends_with_pets)
+```
+
+A few things to note in this case:
+
+- **all variables from the first table have been retained** (name and age). The table has been *mutated* by joining variables from the second table (pet_name and pet_type.
+- **size difference**. In our case our resulting table is not the same size as the original `friends` table, some rows are gone! This is due to John and Dwave not having any pets in the second table... the resulting joined table does not keep their rows. I also have two pet ratties, which means I get two "observations", each in it's own row.
+
+    This is because `inner_join()` only returns the rows that have matches in both tables! 
+    
+Here is a nice image I stole from Dr Barr, where x represents our first data table that we are mutating *onto* and y represents our second data table that we are mutating *from*:
+
+<center><img src="images/inner_join.png" width="400"></center> <br>
+
+The yellow section, the data overlap between the two tables, is the output of the `inner_join()` function! It will return a table with all columns from both tables, but only keep the rows which have entries in both!
+
+___
+
+Well done! This is you officially caught up with all the first semester material. Why not try a task from the task menu to test your skills? Solutions are provided at the bottom of the page.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

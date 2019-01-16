@@ -1,0 +1,75 @@
+---
+title: "group_by()"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<script src="reveal_extra.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+dat <- read_csv("DeBruine_2005_ProcB.csv")
+dat_filtered <- filter(dat, age >= 18)
+dat_arranged <- arrange(dat_filtered, age)
+dat_selected <- select(dat_arranged, id, sex, age, t_non, t_self, st_non, st_self)
+dat_mutated <- mutate(dat_arranged, t_diff = t_self - t_non, st_diff = st_self - st_non)
+
+```
+
+# Calculating our descriptive statistics
+
+Now that we have our R session set up in the way that we need it, we have our data and we have done a little bit of pre-processing to it (our new diff variables have been added) we can get to actually engaging in some analysis.
+
+Before we would engage in any inferential statistics we would usually want to have a look at the descriptive data about our sample of participants and look at some exploratory plots. 
+
+For the descriptives we want to know about the number of participants, their ages and sex of our participants. We could just print everyones sex and age, but that isn't how it's done or very practical! 
+
+What we want to do is to break this information down by *group*... for each participant sex group what was their mean age and how many of them are there?
+
+First thing R needs to know is what factors should act as a grouping information. How do we tell it to group observations by some factor?
+
+## group_by(): group data according to some variable
+
+Luckily there's a function for that! `group_by()` takes an object, such as our tibble, and tells R what to treat as groups.
+
+```{r}
+dat_grouped <- group_by(dat_mutated, sex)
+```
+
+Here again:
+
+- The first argument to the function is the data 
+- The second (and subsequent) arguments would be the column/variable names by which to group the data
+
+Grouping the data does not change the actual data object, rather changes how R looks at the data object. Before our little line of code R was blind to sex grouping information, but thank's to our use of this piece of code it now sees the data in terms of sex.
+
+If you want to check what grouping factors you have previously set on a data set, you can use the `print()` or `head()` function as below:
+
+```{r}
+# only acknowleges and prints the first 6 rows and groups within (why it only says 1), just a peek at the data
+head(dat_grouped) 
+
+# only prints the first 10, acknowledges the size of the set the rest of the set... and all groups (2!)
+print(dat_grouped) 
+```
+
+Notice in the second line of the output for `print(dat_grouped)`? `"Groups: sex [2]"`! Data is grouped by the variable "sex", of which we have "2" in our table (only males and females in our sample). `print()` will only "print out" the first 10 rows of any data table (unless you specify otherwise). You are told about the remainder at the end... our "123 more rows" indicated at the bottom of the print out.
+
+This grouping is a pre-cursor to more useful operations which are to follow in the next section!
+
+### Points to remember
+
+- `group_by()` does not change the data, only how R interprets the data
+    - `print()` and `head()` will show grouping factors
+- grouping information stays with that data  object until you `ungroup()` it, so if you perform more than one transformation on it that requires different grouping factors and forget to change the grouping be prepared for a surprise!
+
+___
+
+Now that R has been told what is and is not a group we can get on some calculations.
+
+<center> [summarise(): condense data sets into summarising values](summarise.html) </center>

@@ -1,0 +1,56 @@
+name: "1A-recap"
+navbar:
+  title: "Rebecca's Stuff"
+  left:
+  - text: "Basics"
+    menu:
+    - text: "R & its file types"
+      href: R_and_file_types.html
+    - text: "Sessions, directories, functions & packages"
+      href: packages.html
+  - text: "Functions We Used"
+    menu:
+    - text: "read_csv()"
+      href: read_csv.html
+    - text: "filter()"
+      href: filter.html
+    - text: "arrange()"
+      href: arrange.html
+    - text: "select()"
+      href: select.html
+    - text: "mutate()"
+      href: mutate.html
+    - text: "group_by()"
+      href: group_by.html
+    - text: "summarise()"
+      href: summarise.html
+    - text: "ggplot()"
+      href: ggplot.html
+    - text: "inner_join()"
+      href: inner_join.html
+  - text: "Extras"
+    menu:
+    - text: "Diagnosing Errors"
+      href: construction.html
+    - text: "Adjusting Appearance of RStudio"
+      href: construction.html
+    - text: "Reproduciblilty Issues"
+      href: construction.html
+    - text: "Playtime with Built in Data"
+      href: construction.html
+    - text: "Pipelines"
+      href: construction.html
+  - text: "Tasks"
+    menu:
+    - text: "1A Recap: Cars Task"
+      href: in_class_cars_task.html
+  right:
+  - text: Feedback
+    href: feedback.html
+output_dir: _site
+output:
+  html_document:
+    lib_dir: site_libs
+    self_contained: no
+    css: style.css
+

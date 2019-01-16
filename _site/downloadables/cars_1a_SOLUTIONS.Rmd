@@ -1,0 +1,145 @@
+---
+title: "1A Recap Solutions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T)
+
+```
+
+## Opening R and a Blank File
+
+You should have downloaded the appropriate files `cars_for_sale.csv` and `prices.csv` and put them in a folder (directory) which you can safely save your work to (H or M drive).
+
+You should also have opened a new R script or .Rmd file and saved it with an appropriate name in this very same location. *It's just good practice to keep all files for the same project in the same place for ease of access*.
+
+## Setting the Working Directory
+
+Set your working directory by going to `Session > Set Working Directory` and selecting `Choose Directory...`, or `To Source File Location` if all of your files are in the same folder together.
+
+## Library
+
+Load the appropriate package from the library. 
+
+```{r lib}
+library(tidyverse)
+# we will be needing functions from the package tidyverse, this is what you should have loaded in with library(). Quotation marks don't make a difference here, you can take them or leave them.
+```
+
+## Reading in our data files
+
+Read in the two .csv files `cars_for_sale.csv` and `prices.csv`.
+
+```{r read_csv}
+cars <- read_csv("cars_for_sale.csv")
+prices <- read_csv("prices.csv")
+# common error from 1A was to use the incorrect read.csv... it does a similar thing, but the data table that results is actually different from the one created by read_csv.
+
+# we have taught you to use read_csv(), so please use that unless you have justifyable reasons to use the other.
+```
+
+## select()
+
+I don't much care about whatever-wheel-drive the vehicle is, or what the highway fuel consumption rate is, and all of the cars on this list are manual gearboxes, so we can bin those three columns. variables.
+
+Remove the columns `trans`, `hwy` and `drv` from the data table `cars`.
+
+```{r select}
+cars_selected <- select(cars, -trans, -hwy, -drv)
+# note to get rid of a few we use the minus sign and the names of those we want to bin
+# if we want only to keep a few we can name the ones to keep without the minus
+
+# its like saying "subtract" this variable when you use the minus, and "keep" when you don't
+```
+
+## filter()
+
+There are some cars that just don't suit my needs, or plain just don't suit my life or driving style. The car must not be a 2 seater, an SUV or pick-up truck.
+
+Remove rows that relate to the `class` of `2seater`, `suv` and `pickup` from `cars_selected`.
+
+```{r filter}
+cars_filtered <- filter(cars_selected, class != "2seater" & class != "suv" & class != "pickup")
+```
+
+## group_by() and summarise()
+
+I want a car that has better than average city fuel consumption. Before we can do that, we need to know what that value is. Additionally, this varies by fuel type.
+
+Group the `cars_filtered` data by fuel type `fl` and calculate the mean for each.
+
+```{r group_and_summarise}
+cars_grouped <- group_by(cars_filtered, fl)
+# you can use the command glimpse(cars_grouped) to see how R looks at the data organisation: what are counted as groups is listed at the top
+
+cars_summarised <- summarise(cars_grouped, mean_cty = mean(cty))
+# summarise uses many summary functions, like mean(). There are lots to choose from depending on the task you wish to perform
+```
+
+## mutate()
+
+Add a column called `lower` to **`cars_filtered`** that gives a `TRUE` if the mean city fuel consumption is greater than or equal to that for the mean of `p` (given in `cars_summarised`), or `FALSE` if it is lower.
+
+**Remember that fuel economy = higher the miles per gallon the better!**
+
+```{r mutate}
+cars_mutated <- mutate(cars_filtered, lower = cty >= 19.23529)
+# note the combination of the relational operators
+```
+
+## inner_join()
+
+Now we need to add the pricing information.
+
+Join `cars_mutated` with `prices`. Note that we have **3** key variables here, `manufacturer`, `model` and `year`!
+
+```{r inner_join}
+cars_joined <- inner_join(cars_mutated, prices, by = c("manufacturer", "model", "year"))
+# the function c() - otherwise called combine or concatenate- allows you to define multiple things together, in this case our key variables.
+```
+
+## arrange() 
+
+Arrange `cars_mutated` by `cty` in descending order.
+
+```{r arrange}
+cars_arranged <- arrange(cars_joined, desc(cty))
+# must include desc() for descending, otherwise goes to default ascending
+```
+
+## Name that Car!
+
+Which car should I be buying then? And how much will it cost me? 
+
+A 2001 Volkswagen New Beetle at £4095! I wonder what colour it is...
+
+## Graph it!
+
+Make a scatterplot of the `cty` fuel consumption on the x axis against `displ` engine displacement (in litres) on the y axis.
+
+Brownie points for anyone who can level up the graph by making the points different colours for those above and below the mean for petrol cars.
+
+```{r scatterplot}
+ggplot(data = cars_arranged, aes (x = cty, y = displ)) +
+  geom_point(aes(colour = lower)) # the part inside the aes() within geom_point changes the colour automatically by the status of "lower" variable
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

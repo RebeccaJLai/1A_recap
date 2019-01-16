@@ -1,0 +1,49 @@
+---
+title: "arrange()"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<script src="reveal_extra.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+dat <- read_csv("DeBruine_2005_ProcB.csv")
+dat_filtered <- filter(dat, age >= 18)
+
+```
+
+## arrange(): arranges your data according to some variable
+
+Let's use `arrange()` to double check that none of our data relates to participants who were under the age of 18. Our use of `filter()` should have removed them all already, but we can put our minds at ease whilst we are learning and double check.
+
+```{r}
+dat_arranged <- arrange(dat_filtered, age)
+```
+
+The function `arrange()` takes a few arguments: 
+
+- The first one here is the tibble that we want to check `dat_filtered`. 
+- The second argument is the column by which we want to arrange the data, age. 
+
+The function `arrange()` will arrange this row in ascending order by default. If we wanted it in descending order instead we would use the code `dat_arranged <- arrange(dat_filtered, desc(age))`.
+
+You can also include multiple column names, in the order that you wanted to arrange them in. So, for example, we could arrange by age, then if individuals shared an age, arrange those rows in order of a second variable and so on for as many columns as you have stated.
+
+### Points to remember
+
+- arrange will change the order of presentation of **rows**, based upon the values of a specified **column**
+- rows are arranged in ascending order by default, *if you want descending you need to use `desc()` with the column name you want*
+- you can arrange data by multiple columns by specifying multiple column names. R will start on column name specified first (left-most) and work to the right
+- arrange will not delete, add or otherwise amend content of rows or columns
+
+___
+
+YAY! we did what we intended to with filter(), now let's remove the unwanted columns.
+
+<center> [select(): remove or retain specified columns](select.html) </center>

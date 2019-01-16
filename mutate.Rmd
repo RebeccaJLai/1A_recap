@@ -1,0 +1,96 @@
+---
+title: "mutate()"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<script src="reveal_extra.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+dat <- read_csv("DeBruine_2005_ProcB.csv")
+dat_filtered <- filter(dat, age >= 18)
+dat_arranged <- arrange(dat_filtered, age)
+dat_selected <- select(dat_arranged, id, sex, age, t_non, t_self, st_non, st_self)
+
+```
+
+## mutate(): "mutates" a data frame so that it *grows* new columns
+
+The naming of the `mutate()` function seems a little weird at first. Essentially, it takes a pre-existing object (such as our tibble called `dat_arranged`) and adds an additional column, filled with whatever we told it to fill it with.  
+
+To make it more memorable I like to think of it in terms of a body... if I grew an extra arm I would have "mutated"! Here that's exactly what our data frame is doing, it is growing an extra column and mutating.
+
+use `mutate()` to add in two extra variables (columns). One should be t_self - t_non and the other st_self - st_non. Call them t_diff and st_diff respectively.
+
+```{r}
+dat_mutated <- mutate(dat_arranged, t_diff = t_self - t_non, st_diff = st_self - st_non)
+```
+
+Here we can see the familiar format, the object to be acted upon is presented as the first argument to `mutate()`. 
+
+What comes next looks a little bit different though. We still have two arguments: `t_diff = t_self - t_non` and `st_diff = st_self - st_non`, they're just longer and more complex. Let's break them down and have a look at the elements of them:
+
+- **name of the column to be created**: `t_diff` and `st_diff` are the names of the two columns that we want to create. Each part is at the front of it's own argument.
+- **contents of the new columns**: `t_self - t_non` and `st_self - st_non` are the contents of the columns. Each is a simple arithmetical operation, which is calculated on a row-by-row basis, and put in the new column at the end. 
+- **=**`: this is used to assign the content to that specific column within each argument.
+
+So if we put all this together we get the code above... but it looks a bit messy and it's really all that readable is it? If you want to find out how to make it look prettier and easier to read, click "Reveal More"!
+
+<center><button onclick="revealExtra(extraName = 'readability')">Reveal More: Readability</button></center> <br>
+
+<div class="extras" id="readability">
+
+___
+
+Let's do something to fix this mess!
+
+How are you supposed to be able to refer back to your notes if they look like a dogs dinner and you can't make head-nor-tails of them? Beyond that, if you share your code with someone else (say someone is trying to replicate your analysis)... how are *they* supposed to understand it if you don't?
+
+For these reasons it is good practice to use the space around the code to *enhance* it's readability. After all, if you were writing an essay you'd do they same thing by increasing spacing between the lines, indenting the first line of the paragraph or adding spaces between different paragraphs, wouldn't you?
+
+Let's compare the code that we wrote for mutate to another piece of code that does the same thing, but is just formatted differently.
+
+```{r}
+# original code it all it's ugly, mince-like glory
+dat_mutated <- mutate(dat_arranged, t_diff = t_self - t_non, st_diff = st_self - st_non)
+
+# new arrangement of the same code... isn't it pretty? We can also add comments to each part!
+dat_mutated <- mutate(dat_arranged, # first argument, the object being mutated
+                      t_diff = t_self - t_non, # second argument, the first column to be made and the contents to be assigned
+                      st_diff = st_self - st_non) # third argument, the second column to be made and the contents to be assigned
+```
+
+So what did we even do?
+
+Each argument has been bumped down to a brand new line, so we can easily see the column name, the equals and the contents of each. This looks much better to my eyes!
+
+We can do this because of the way that R reads the code. Each function should usually be started and completed on the same line. If something at the end of the line indicates that it is not complete then R will move on down to the next line and look for the rest of it. 
+
+In our example we made sure that our commas where the last character on the line. The comma is one character which signifies to R that the next line should be read as part of the currently executing code.
+
+We're going to see another one of these later on when we make a plot, the `+` symbol.
+
+___
+
+</div>
+
+### Points to remember
+
+- mutate takes **an already existing data object** and **adds a new column or columns**
+    - you specify the column names before the `=`
+    - you specify the contents of the cells in those columns after the `=`
+- mutating a data object and **using an already existing column name will overwrite that column with the new contents you specify**, so be careful!
+- mutating multiple columns might make the code look messy... **consider using the "whitespace" around the code to make it more readable**
+    - **comments can be super handy** when you need to spell out what is happening (for others or for yourself!)
+    
+___
+
+Self-preference scores have been added, let's get to calculating our descriptive statistics
+
+<center> [group_by(): tell R what groups exist in your data](group_by.html) </center>

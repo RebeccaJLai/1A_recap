@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R and its File Types</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Rebecca's Stuff</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Basics
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R_and_file_types.html">R &amp; its file types</a>
+    </li>
+    <li>
+      <a href="packages.html">Sessions, directories, functions &amp; packages</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Functions We Used
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="read_csv.html">read_csv()</a>
+    </li>
+    <li>
+      <a href="filter.html">filter()</a>
+    </li>
+    <li>
+      <a href="arrange.html">arrange()</a>
+    </li>
+    <li>
+      <a href="select.html">select()</a>
+    </li>
+    <li>
+      <a href="mutate.html">mutate()</a>
+    </li>
+    <li>
+      <a href="group_by.html">group_by()</a>
+    </li>
+    <li>
+      <a href="summarise.html">summarise()</a>
+    </li>
+    <li>
+      <a href="ggplot.html">ggplot()</a>
+    </li>
+    <li>
+      <a href="inner_join.html">inner_join()</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Extras
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="construction.html">Diagnosing Errors</a>
+    </li>
+    <li>
+      <a href="construction.html">Adjusting Appearance of RStudio</a>
+    </li>
+    <li>
+      <a href="construction.html">Reproduciblilty Issues</a>
+    </li>
+    <li>
+      <a href="construction.html">Playtime with Built in Data</a>
+    </li>
+    <li>
+      <a href="construction.html">Pipelines</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tasks
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="in_class_cars_task.html">1A Recap: Cars Task</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="feedback.html">Feedback</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R and its File Types</h1>
+
+</div>
+
+
+<div id="what-are-r-and-rstudio-ide" class="section level1">
+<h1>What are R and RStudio IDE?</h1>
+<div id="r" class="section level2">
+<h2>R <img src="images/Rlogo.png" height="50" width="50" alt="R Commander Logo" align="right"> <br></h2>
+<p>R is a programming language and completely free software which widely used for data analysis across many disciplines. It is a stand-alone program and can be run on it’s own, but it’s not particularly user friendly. <br> <br></p>
+<p>When you open R alone you get the “R commander” which can be seen below: <br></p>
+<center>
+<img src="images/commander.png" alt="R Commander">
+</center>
+<p><br></p>
+</div>
+<div id="rstudio-ide" class="section level2">
+<h2>RStudio IDE <img src="images/rstudio.png" height="150" width="150" alt="R Studio Logo" align="right"> <br></h2>
+<p>RStudio IDE (short for <strong>I</strong>ntegrated <strong>D</strong>evelopment <strong>E</strong>nvironment) is essentially a shiny facade for R, which sits atop it and gives it all sorts of useful features which make it much easier to use. RStudio has to be installed in addition to R!</p>
+<p>When you first open it you get 3 main panels, which can be seen in the picture below.</p>
+<center>
+<img src="images/open.png">
+</center>
+<p><br> <br></p>
+<div id="console" class="section level3">
+<h3>1. Console</h3>
+<p>This is essentially the same thing as R commander. You can run code in here and it can be a useful playground to try out new things and do things that you don’t neccessarily want saved into a script because <strong>it’s not permanent- anything typed here will be lost when you close R</strong>!</p>
+<p>Examples of things you might want to run in the console include, but are not limited to, experimenting with running new functions and seeing what they do, accessing help topics or installing packages.</p>
+<p>When you run code from a script it appears in the console automatically. Here’s a screenshot of my console after making this web page:</p>
+<center>
+<img src="images/console.png" alt="The Console">
+</center>
+<p><br></p>
+<p>The code is saved in my RMarkdown file and remains there, the console only displays that it was run.</p>
+</div>
+<div id="environmenthistoryconnections" class="section level3">
+<h3>2. Environment/History/Connections</h3>
+<p>This panel is tabbed, with 2 tabs that you should know about to right now:</p>
+<ul>
+<li><p><strong>Environment</strong>: this contains all of the virtual “objects” that you have created. These include, but are not limited to, variables containing data that you have read in from data files, lists, individual values, custom-written functions etc.</p>
+<p>Objects can and should be created in your scripts. When you close R you might lose some of the objects, but as long as you have the script containing the instructions to re-create these objects you can re-run it and make them again.</p></li>
+<li><p><strong>History</strong>: this is a list of all of the commands that you have run in the current “session”, which can be useful to go back to some times if you did run some code in the console that you want to look at again. This information can also be accessed in the console by placing the cursor there and using the up and down keys.</p></li>
+</ul>
+<p>At this point you don’t really need to worry about the one called connections (it lets you connect to things like online data sources and stuff).</p>
+<p>This is what the environment panel looks like for me right now… it’s empty!</p>
+<center>
+<img src="images/environment.png" alt="The Environment">
+</center>
+<p><br></p>
+</div>
+<div id="filesplotspackageshelpviewer" class="section level3">
+<h3>3. Files/Plots/Packages/Help/Viewer</h3>
+<p>This panel set is going to be mega useful to you throughout the duration of your career as an R user. Viewer is not immediately required, so we’ll just cover Files, Plots, Packages and Help.</p>
+<ul>
+<li><p><strong>Files</strong>: Shows a file browser that let’s you look around in your file structure. Helpful hint: click on the more button and “Go to working directory” to see the same files that R can see. <strong>It is <em>possible</em> to load files in through this tab, but you should always strive to do it in the script!</strong> When your homework is assessed we want it in the script.</p></li>
+<li><p><strong>Plots</strong>: A tab that displays plots that you have made (if you don’t have them appearing “inline” in a markdown document or do them in a script). You can navigate backwards and forwards between multiple plots- allowing you to test out new things and see the changes in comparison to each other.</p></li>
+<li><p><strong>Packages</strong>: This allows you to look at the R packages that are installed on the machine that you are using, and the check box next to it indicates if it is loaded in from the library. <strong>It is <em>possible</em> to click the box to load a package, but you should always strive to do it in the script!</strong> When your homework is assessed we want it in the script.</p></li>
+<li><p><strong>Help</strong>: this window displays the built in help files. Other programs also have this sort of thing, like Microsoft Word or Powerpoint. You can search using the search box on the help tab itself, but you can also type into the console. For example, if I wanted to find the help file for the <code>library()</code> function I would type <code>?library</code> into the console. the result is displayed in the help tab to the right.</p></li>
+</ul>
+<center>
+<img src="images/using_help.png" alt="Typing in the console for help">
+</center>
+<p><br></p>
+<p>This can be super helpful, but sometimes these files are not exactly written in a manner that could be considered accessible to novice users. You get the hang of reading them over time. If you struggle to read them right now you might want to try Googling it (we <strong>all</strong> do it, no matter our level of experience).</p>
+<p>Even Googling can be difficult sometimes, but you will eventually get a better idea of the types of search terms and keywords most likely to direct you to the information that you are after. <br><br></p>
+<center>
+<img src="images/help.png" alt="The Help Tab, with the last thing I looked up">
+</center>
+<p><br></p>
+</div>
+</div>
+</div>
+<div id="file-types" class="section level1">
+<h1>File Types</h1>
+<p>When you open a program, such as Microsoft Word, you haven’t actually created a Word document you’ve just started the program. Opening RStudio is much the same. Even though it can function without opening a file doing so makes life so much easier!</p>
+<p>When you open a file, the console will shrink and the space taken away in that pane will be taken up by the new file.</p>
+<p>Opening a new file allows you to write code that can be saved, amended, shared etc. <strong>Analysis code sharing is an important aspect of reproducibility!</strong> If someone wants to see our analysis, or replicate our study with a new population or stimuli or change the paradigm, this takes a lot of the guess work out of what was actually done with the data. It increases <em>transparency</em>.</p>
+<p>R can handle a lot of different files types, we will only focus on the two kinds that we learned about in the first semester. These are <strong>.r</strong> and <strong>.Rmd</strong> files. Both are saved as plain text files (without any fancy formatting- like the difference between .txt and .docx files). What changes is how R interprets the files, and the types of outputs that you can get from them.</p>
+<p>I find it useful to think about these two files in terms of their intended audience, with <strong>.r files intended to be read by the computer</strong> and <strong>.Rmd files more aimed towards humans</strong>.</p>
+<div id="r-files" class="section level2">
+<h2>.r Files</h2>
+<p>This is what we refer to as a script. It is designed to be read by R, not so much by humans.</p>
+<center>
+<img src="images/new_script.png">
+</center>
+<p><br></p>
+<p>All of the text in an R script will default to being read as <strong>executable code (that is, text which is directed at the machine)</strong>. We can, however, tell R <strong>not</strong> to read it as executable code, but instead for the machine to ignore certain parts of it, by using something called <strong>comments</strong>.</p>
+<div id="comments" class="section level3">
+<h3>Comments</h3>
+<pre class="r"><code># this is what a comment looks like. Anything AFTER a hashtag.
+# Code and comments can appear on the same line as code, but comments must
+# be placed on the end of the line after a hashtag.
+
+# R doesn&#39;t &quot;speak&quot; natural languages so it would not be able 
+# to understand any of this and would give errors!
+
+# Comments are for humans. You can use them to put notes in scripts to
+# remind yourself of what is happening, or to inform people with whom
+# you have shared your code.</code></pre>
+</div>
+</div>
+<div id="rmd-files" class="section level2">
+<h2>.Rmd files</h2>
+<p>Otherwise known as “R Markdown” files, these are the types of files that you have been downloading and using for your homeworks. It’s the type of file I wrote all of this on. They can be extremely useful if you learn to use them well.</p>
+<center>
+<img src="images/new_markdown_dialogue.png">
+</center>
+<p><br></p>
+<p>I like to think of the way this file type is interpreted as being <em>like a script, but flipped</em>- <strong>the default interpretation of text aimed at humans</strong>. If we want executable code we need to prompt R to read the text in this way. This is done using <strong>“code chunks”</strong>, or sometimes just called <strong>“chunks”</strong>.</p>
+<p>When you first open a new R Markdown file it already has text and a few code chunks as an example. Here you can see the code chunks are a shaded differently than the rest of the file. Text other than that in the top most part between the sets of dashes (called the <strong>YAML Header</strong>), the code chunks and some other special cases (which we will cover later in your degree), are ignored by R.</p>
+<hr />
+<p>I have changed the appearance of my IDE to make it easier for me to read (which can be done in <strong>Tools &gt; Global Options &gt; Appearance</strong>). You might also want to change these options if you experience issues, such as colour-blindess. Explore the options to see what works for you!</p>
+<hr />
+<p>Code chunks can also be spotted by other defining features which are discussed below.</p>
+<center>
+<img src="images/new_markdown.png">
+</center>
+<p><br></p>
+<div id="code-chunks" class="section level3">
+<h3>Code Chunks</h3>
+<p><strong>Code chunks</strong> are bordered by <strong>“backticks”</strong>, which look an awful lot like apostrophes but they are different! These are important as they tell R where it needs to start and stop reading.</p>
+<p>Chunks also contain <strong>“curly brackets”</strong> at the start which contains various bits of information neccessary to how the computer reads it. This includes what programming language you are writing in there (yes! R Markdown documents can accept other programming languages), name of the chunk (used for a variety of reasons, such as our marking software and document indexing) and other attributes which you will learn about in years to come.</p>
+<center>
+<img src="images/chunk.png">
+</center>
+<p><br></p>
+<hr />
+<p>One consistent error from the semester 1 homeworks was changing essential chunk parts. Main issues of concern were:</p>
+<ul>
+<li>The chunk <strong>must</strong> have the backticks to show the beginning and end of the executable code, otherwise the code doesn’t run and the answer is returned as incorrect and must be double checked.</li>
+<li>Changing the name of the chunk! We use computer assisted marking techniques, and if the chunk name isn’t what the answer key is looking for then the question is returned as incorrect because it does’t seem to exist, and again needs double checking.</li>
+</ul>
+<hr />
+</div>
+</div>
+</div>
+<div id="saving-your-file" class="section level1">
+<h1>Saving your file</h1>
+<p>As mentioned before, <strong>anything in the console vanishes when you close R</strong>. Any objects that you have used code to make (those things that live in the environment) should vanish too if R is set up in a maximally reproducible way.</p>
+<p>Your script is a set of instructions on how to make those objects. If you have saved your script or markdown, you can essentially re-run it and get back to where you left off when you last saved your progress.</p>
+<p>Saving your file for the first time is as easy as going to <strong>File &gt; Save As</strong> and filling in the details in the dialogue box as appropriate, just like you do in other programs:</p>
+<center>
+<img src="images/save_as_menu.png" width="198"> <img src="images/save_as_dialogue.png" width="602">
+</center>
+<p><br></p>
+<p>Saving changes to an already existing file is done by going to <strong>File &gt; Save</strong>:</p>
+<center>
+<img src="images/save.png">
+</center>
+<p><br></p>
+<hr />
+<p>Now that we know how to navigate the environment, let’s learn how to do something useful with it!</p>
+<center>
+<a href="packages.html">Next: Basics &gt; Sessions, Directories, Functions and Packages</a>
+</center>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

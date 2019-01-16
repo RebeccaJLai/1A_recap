@@ -1,0 +1,78 @@
+manufacturer,model,price,year
+audi,a4,3962,2005
+audi,a4,4633,2010
+audi,a4,4346,2000
+audi,a4 quattro,4415,2000
+audi,a4 quattro,4851,2009
+audi,a4 quattro,4229,2001
+audi,a4 quattro,4733,2008
+chevrolet,corvette,4181,2002
+chevrolet,corvette,4909,2008
+chevrolet,corvette,4488,2009
+dodge,dakota pickup 4wd,4753,2009
+dodge,dakota pickup 4wd,4372,2000
+dodge,dakota pickup 4wd,4321,2002
+dodge,ram 1500 pickup 4wd,4596,2008
+dodge,ram 1500 pickup 4wd,4938,2008
+dodge,ram 1500 pickup 4wd,4490,2010
+dodge,ram 1500 pickup 4wd,4232,2002
+ford,explorer 4wd,4293,2003
+ford,f150 pickup 4wd,4328,2000
+ford,f150 pickup 4wd,4337,2002
+ford,mustang,4205,2000
+ford,mustang,4568,2011
+ford,mustang,4192,2002
+ford,mustang,4592,2008
+ford,mustang,4863,2009
+honda,civic,4236,2002
+honda,civic,4017,2002
+honda,civic,4106,2001
+honda,civic,4491,2012
+honda,civic,4836,2008
+hyundai,sonata,4266,2001
+hyundai,sonata,4881,2011
+hyundai,sonata,4462,2001
+hyundai,tiburon,4391,2001
+hyundai,tiburon,4843,2009
+hyundai,tiburon,4901,2010
+hyundai,tiburon,4838,2008
+nissan,altima,4166,2001
+nissan,altima,4838,2010
+nissan,altima,4768,2010
+nissan,maxima,4011,2000
+nissan,pathfinder 4wd,4356,2001
+subaru,forester awd,4191,2000
+subaru,forester awd,4801,2008
+subaru,forester awd,4938,2008
+subaru,impreza awd,4147,2001
+subaru,impreza awd,4357,2001
+subaru,impreza awd,4718,2011
+subaru,impreza awd,4909,2009
+toyota,4runner 4wd,4321,2001
+toyota,4runner 4wd,3932,2002
+toyota,camry,4019,2000
+toyota,camry,4844,2009
+toyota,camry,4101,1999
+toyota,camry solara,4291,2000
+toyota,camry solara,4794,2010
+toyota,camry solara,4274,2000
+toyota,corolla,4324,2000
+toyota,corolla,4338,2008
+toyota,toyota tacoma 4wd,4061,2000
+toyota,toyota tacoma 4wd,4643,2010
+toyota,toyota tacoma 4wd,4221,2000
+toyota,toyota tacoma 4wd,4815,2009
+volkswagen,gti,4233,2003
+volkswagen,gti,4906,2010
+volkswagen,gti,4236,2003
+volkswagen,jetta,4421,1999
+volkswagen,jetta,4279,1999
+volkswagen,jetta,4479,2008
+volkswagen,jetta,4546,2011
+volkswagen,jetta,4088,2001
+volkswagen,new beetle,4095,2001
+volkswagen,new beetle,4301,2001
+volkswagen,new beetle,4936,2008
+volkswagen,passat,4067,2001
+volkswagen,passat,4785,2010
+volkswagen,passat,4103,2002
