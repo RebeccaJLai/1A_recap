@@ -21,7 +21,7 @@ A **session** in R is a segment of time/workspace/processor time that is dedicat
 
 Let's go back to Microsoft Word as an example. We can have an essay open in one window and class notes opened up in another window. Both are instances of Word, but they are dedicated to two different tasks (essay as one and class notes as the other) which just so happen to be running concurrently.
 
-<center> <img src="images/two_sessions.png"> </center> <br>
+<center> <img src="images/two_sessions.PNG"> </center> <br>
 
 You can have multiple sessions open in R, but I wouldn't recommend it because it can become confusing. We can start a new session by going to Session > new session. 
 

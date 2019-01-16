@@ -24,7 +24,7 @@ For the purposes of this demonstration let's look at this data from Prof. DeBrui
 
 We can download this data directly from the Open Science Foundation (OSF) by clicking on the appropriate file in the "Files" list, the file with the extension ".csv":
 
-<center> <img src="images/file_list.png"> </center> <br> 
+<center> <img src="images/file_list.PNG"> </center> <br> 
 
 This takes us to a new page where you click the "download" button on the top right of the page:
 
@@ -36,7 +36,7 @@ Data files are stored in many different formats. One of the more commonly used, 
 
 Again, CSVs are just regular old plain text files, but the file extension tells associated programs what to do with it. Let's look at the file in two programs, notepad and excel, and compare the differences:
 
-<center> <img src="images/csv_two_views.png"> </center> <br>
+<center> <img src="images/csv_two_views.PNG"> </center> <br>
 
 This is exactly the same file. We can see that it is a plain text file, but that Excel understands that the commas separate the variables (they are "delimited" by the commas). 
 
