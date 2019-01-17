@@ -66,6 +66,7 @@ Function      |Use
 `mean()`      |Calculates the mean average of the variable in the brackets.
 `median()`    |Calculates the median of the variable in the brackets.
 `n()`         |Counts the number of values or rows. **It's brackets are always left empty!**
+`sum()`       |Calculates the total in the variable specified in the brackets.
 `sd()`        |Gives you the standard deviation of the variable in the brackets.
 
 A more comprehensive list of these can be found on the dplyr cheatsheet accessible from the help menu.

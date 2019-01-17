@@ -1,0 +1,124 @@
+---
+title: "Pipelines"
+output: 
+  html_document:
+    toc: true
+    toc_float:
+      collapsed: false
+---
+
+<script src="reveal_extra.js"></script>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Code
+
+Lines of code take an **input**, process this with a **function** and then give us an **output**. We have created many variables in going through this process, all with similar names and across a lot of different lines and chunks. Surely theres a more efficient way of doing it so that we are not getting confused with a lot of single-use objects?
+
+## Our code
+
+I've taken all of the code that we used for the task we completed earlier from Prof. DeBruine's data and stuck it all in one chunk, without the `ggplot` part.
+
+```{r message=F}
+library(tidyverse)
+
+dat <- read_csv("DeBruine_2005_ProcB.csv")
+
+dat_filtered <- filter(dat, age >= 18)
+
+dat_arranged <- arrange(dat_filtered, age)
+
+dat_selected <- select(dat_arranged, id, sex, age, t_non, t_self, st_non, st_self)
+
+dat_mutated <- mutate(dat_arranged, t_diff = t_self - t_non, st_diff = st_self - st_non)
+
+dat_grouped <- group_by(dat_mutated, sex)
+
+descriptives <- summarise(dat_grouped, 
+                          m_age = mean(age), 
+                          n = n()) 
+```
+
+During this process we created 7 variables, many of which were only used **once**... hardly seems like an efficient use of storage space does it?
+
+Let's see if we can improve matters using **pipes**.
+
+## Our code, condensed
+
+```{r message=F}
+library(tidyverse)
+
+dat <- read_csv("DeBruine_2005_ProcB.csv")
+
+dat_mutated_2 <- dat %>%
+  filter(age >= 18) %>%
+  arrange(age) %>%
+  select(id, sex, age, t_non, t_self, st_non, st_self) %>%
+  mutate(t_diff = t_self - t_non, 
+         st_diff = st_self - st_non)
+
+descriptives_2 <- dat_mutated_2 %>%
+  group_by(sex) %>%
+  summarise(m_age = mean(age),
+            n = n()) 
+```
+
+Here is what we have second time around, 3 objects:
+
+- `dat`: the same as before. I like to keep raw data inputs in their own thing.
+- `dat_mutated_new`: the combination of all stages from `dat_filtered` up to and including `dat_mutated`
+- `descriptives_2`: group_by and summarise, using `dat_mutated_2` as the input
+
+Can you spot the differences between our old code and our new code? 
+
+## What did we even do?
+
+We did a number of things here:
+
+- we used the characters **%>%** at the end of each line
+- we stacked multiple lines together, each with **one function**
+- the functions **first argument is missing**, which is *always* the data input argument in the tidyverse functions
+    - remember we discussed this earlier? 
+
+The **%>%** tells R to take the **output** of the function which preceeds it on that line and put it into the **first argument** of the function that follows on the next line.... just so happens that all of the Tidyverse functions we've used have the **input** as the first argument! Convenient, eh?
+
+When reading off the code, try substituting the **%>%** with the phrase "and then"
+
+```{r eval=FALSE}
+dat_mutated_2 <- dat %>% # put dat into dat_mutated_2... AND THEN
+  filter(age >= 18) %>% # filter age equal to or greater than 18... AND THEN
+  arrange(age) %>% # arrange the result by age ascending... AND THEN
+  select(id, sex, age, t_non, t_self, st_non, st_self) %>% # only keep these columns... AND THEN
+  mutate(t_diff = t_self - t_non, 
+         st_diff = st_self - st_non) # create these new variables
+```
+
+## Why Care?
+
+### Code Clarity and Efficiency
+
+There will come a time when you have complex analyses to run, you may have a lot of objects in your environment and not want to retain single use ones which ight just get in your way.
+
+### Nesting Functions
+
+There will also be a time when you want to do more than one thing and, in other programming languages, would have to **nest** functions within functions within functions... and that is literally function-ception. 
+
+If we were to create `dat_mutated_3` to be the same as `dat_mutated_2` by nesting functions inside each other, it would look something like this:
+
+```{r}
+dat_mutated_3 <- mutate(
+  select(
+    arrange(
+      filter(dat, age >= 18), age), 
+    id, sex, age, t_non, t_self, st_non, st_self), 
+  t_diff = t_self - t_non,
+  st_diff = st_self - st_non)
+
+```
+
+It will melt your brain, your face and your eyes. Pipes help you voice nesting by taking one output and slotting it straight into another. This makes it **linear, instead of inside out** (where the first thing done is in the centre and you work outwards). This makes it easier for us humans to understand. It also allows you to keep comments about a single function on one line, not spread over at least 2.
+
+Try doing <a href="in_class_cars_task.html">this</a> exercise, then try changing it to piped (using **%>%**) and then try doing it nested.
+

@@ -11,7 +11,7 @@
 
 
 
-<title>ggplot()</title>
+<title>Diagnosing Errors</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -386,94 +386,99 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">ggplot()</h1>
+<h1 class="title toc-ignore">Diagnosing Errors</h1>
 
 </div>
 
 
 <script src="reveal_extra.js"></script>
-<div id="exploratory-visualisation" class="section level1">
-<h1>Exploratory Visualisation</h1>
-<div id="ggplot-layered-plots-for-flexible-data-visualisations" class="section level2">
-<h2>ggplot(): layered plots for flexible data visualisations</h2>
-<p>After we have our descriptives we want to look at our data to get a feel for it. This should be done before any inferential statistics.</p>
-<p>In the first semester we used <code>ggplot()</code> and it’s associated functions to make a scatterplot. Lets do the same thing again, but this time using the new data set.</p>
-<p>We need to understand a few new things about how ggplot works before we continue!</p>
-<div id="layers" class="section level3">
-<h3>Layers</h3>
-<p>ggplot is actually a system which allows us to build a plot from the back to the front in a series of layers. I think about it as if I were drawing layers by hand on different transparent sheets of plastic and sticking them on top of each other on an old school overhead projector.</p>
-<p>You might think that this is an unneccessarily complicated way to go about things, but it means you can make some truly wonderful data visualisations. I find it much easier to understand… now!</p>
-<p>When I first started using ggplot I was <em>genuinely crap at it</em>. So crap at it, in fact, that I declared it my nemesis.</p>
-<p>Giving you this explanation is the way in which I continue to beat it into submission!</p>
-<p>The layer system is built from the background of the plot to the foreground. We can break down any plot into two main sections:</p>
+<div id="text-outputs-from-r" class="section level1">
+<h1>Text Outputs from R</h1>
+<p>Occassionally R will return some text when you run a piece of code. Often, this text is coloured red, which causes a bit of panic in new users. It is printed in the console, but also may be displayed below code chunks in R Markdown documents.</p>
+<p><strong>Not all red text indicates an error!</strong> There are a number of things that R could be trying to tell you, all that the red colour indicates is that you should be paying attention to it.</p>
+<p>Let’s have a look at what different types of thing R could be telling you.</p>
+</div>
+<div id="types-of-text-output" class="section level1">
+<h1>Types of Text Output</h1>
+<div id="errors" class="section level2">
+<h2>Errors</h2>
+<p>Defintely the one that people worry about the most. Let’s do something that will definitely generate an error and have a look at it:</p>
+<pre class="r"><code>demo &lt;- read_csv(&quot;some_file_name.csv&quot;)</code></pre>
+<pre><code>## Error: &#39;some_file_name.csv&#39; does not exist in current working directory (&#39;/Users/rebeccal/Documents/Level 1 materials/1A_recap&#39;).</code></pre>
+<p>Breaking it down:</p>
 <ul>
-<li><strong>the base layer</strong>: created by calling the <code>ggplot()</code> function. Makes a space for a graph. Also used to declare any <em>“global”</em> attributes for the graph (stuff which applies to every single layer attached to this one base)</li>
-<li><strong>geom layers</strong>: geom stands for <em>“geometric object”</em>, created by calling any one or even multiple <code>geom_x()</code> functions. These tell R <em>how</em> to display the data.</li>
+<li><code>Error...</code>: error messages are always preceeded by the word error</li>
+<li><code>could not find function &quot;read_csv&quot;</code>: the content of the error message. In this case the function I have tried to call is not found.</li>
 </ul>
-<p>Layers are strung together with the <code>+</code> symbol.</p>
-<p>Lets do a worked example to wrap our heads around it.</p>
-<div id="calling-ggplot-the-base-layer" class="section level4">
-<h4>Calling <code>ggplot()</code>: the base layer</h4>
-<p>Lets make a base layer for our plot:</p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff))</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>The first input is the data object we want to use to make the graph with. the second is <code>aes()</code>, which stands for aesthetics. Within its brackets we specify what to put on the x axis, followed by the y axis after the comma.</p>
-<p>Since it’s declared in the base layer it is <strong>global</strong>, meaning that these will be used for all layers of this graph.</p>
-<p>When we run the code though all we get is an empty space.</p>
-<p>This function on it’s own doesn’t really do much for us, to provide us with a meaningful output we need to tell R what to do with the data we have given it by specifying a <em>geom</em>.</p>
+<p><strong>Error messages should give a hint as to what has gone wrong</strong>. You will gain more experience in reading and interpretting these messages over time, most of us have just seen them a lot in our own work and have become accustomed to it!</p>
+<p>Trying to run a piece of code that results in an error will not produce any output, besides the error message.</p>
+<div id="common-errors-and-what-they-mean" class="section level3">
+<h3>Common Errors and What They Mean</h3>
+<div id="unexpected" class="section level4">
+<h4>Unexpected ‘)’</h4>
+<pre class="r"><code>library(tidyverse))</code></pre>
+<pre><code>## Error: &lt;text&gt;:1:19: unexpected &#39;)&#39;
+## 1: library(tidyverse))
+##                       ^</code></pre>
+<p>What does the error message tell you? What happened and what do you think I should do to fix it?</p>
 </div>
-<div id="adding-our-first-geom" class="section level4">
-<h4>Adding our first geom</h4>
-<p>Now that we’ve made a space for a graph let’s fill it up with something meaningful.</p>
-<p>Now let’s add some data points using <code>geom_point()</code></p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff)) +
-  geom_point()</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Now we have our data points on there! But it’s looking rather bland. We can set some attributes for individual layers to jazz it up a bit:</p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff)) + 
-  geom_point(colour = &quot;orange&quot;)</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>Note: this aethetic information is not declared in <code>aes()</code>! If we want to flat out colour all the points a single colour we declare in in the brackets for the geometric object that we are using. We can set colours within <code>aes()</code>… but it does something different! Have a look and compare:</p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff)) +
-  geom_point(aes(colour = &quot;orange&quot;))</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>It has set all the points to orange, but it’s also added a nonsense legend. What’s <em>more</em> useful is to use the <code>aes()</code> colour specification to change the colours depending on a factor:</p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff)) +
-  geom_point(aes(colour = sex))</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>When we set colour = some variable, each level of that variable will be assigned a different colour. Here all the females are red and males blue. This is good for when you want to look at details within your data set that might not be fully evident by lumping all levels of a variable together, such as examining interactions.</p>
-<p><strong>As a general rule</strong>, if you want to manually set a colour you do it <em>outside</em> of <code>aes()</code>, if you want R to automatically assign colours to levels of a variable you do it <em>inside</em> of <code>aes()</code>.</p>
+<div id="could-not-find-function" class="section level4">
+<h4>Could not find function</h4>
+<pre class="r"><code>demonstration &lt;- read_csv(&quot;downloadables/cars_for_sale.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   manufacturer = col_character(),
+##   model = col_character(),
+##   displ = col_double(),
+##   year = col_integer(),
+##   cyl = col_integer(),
+##   trans = col_character(),
+##   drv = col_character(),
+##   cty = col_integer(),
+##   hwy = col_integer(),
+##   fl = col_character(),
+##   class = col_character()
+## )</code></pre>
+<p>This is the same example as the top of the page. What do you think it means? How is it fixed?</p>
 </div>
-<div id="stacking-multiple-layers" class="section level4">
-<h4>Stacking multiple layers</h4>
-<p>Nobody expects you to get all of this right now, but have a look and see if you can understand this code and how it produces the results that it does. Even mess about with it… change stuff and see what happens!</p>
-<pre class="r"><code>ggplot(data = dat_mutated, aes(st_diff, t_diff)) + # base
-  geom_point(aes(colour = sex)) + # data points
-  geom_smooth(data = filter(dat_mutated, sex == &quot;female&quot;), method = &quot;lm&quot;, se = F, colour = &quot;tomato2&quot;) + # line of best fit for females
-  geom_smooth(data = filter(dat_mutated, sex == &quot;male&quot;), method = &quot;lm&quot;, se = F, colour = &quot;deepskyblue&quot;) # line of best fit for males</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div id="could-not-find-object" class="section level4">
+<h4>Could not find object</h4>
+<pre class="r"><code>head(demonstration)</code></pre>
+<pre><code>## # A tibble: 6 x 11
+##   manufacturer model displ  year   cyl trans drv     cty   hwy fl    class
+##   &lt;chr&gt;        &lt;chr&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
+## 1 audi         a4      1.8  2005     4 manu… f        21    29 p     comp…
+## 2 audi         a4      2    2010     4 manu… f        20    31 p     comp…
+## 3 audi         a4      2.8  2000     6 manu… f        18    26 p     comp…
+## 4 audi         a4 q…   1.8  2000     4 manu… 4        18    26 p     comp…
+## 5 audi         a4 q…   2    2009     4 manu… 4        20    28 p     comp…
+## 6 audi         a4 q…   2.8  2001     6 manu… 4        17    25 p     comp…</code></pre>
+<p>Same thing here. I’ve tried to use the function head on the object I tried to create above. Have a think about why this error has been returned and how to fix it.</p>
 </div>
+<div id="could-not-find-object-ii" class="section level4">
+<h4>Could not find object II</h4>
+<p>To further complicate matters the same error message can be the result of different things that have gone wrong. Look at this, it’s the same error message!</p>
+<pre class="r"><code>head(Demonstration)</code></pre>
+<pre><code>## Error in head(Demonstration): object &#39;Demonstration&#39; not found</code></pre>
+<p>In the labs this happened a lot, so this should be fairly familiar. Assuming that the errors with <code>read_csv</code> and <code>library</code> have been fixed, why wouldn’t this work and how do you fix it?</p>
 </div>
-<div id="points-to-remember" class="section level3">
-<h3>Points to remember</h3>
-<ul>
-<li>ggplot is a system of layered graphics which could be described as being of two main sections:
-<ul>
-<li><strong>a base layer</strong> which creates a space for a graph</li>
-<li><strong>geometric objects</strong>, otherwise known as <strong>“geoms”</strong>, define what the graph looks like. Many of these can be stacked</li>
-<li><strong>+</strong> is used at the end of the code for a layer, which tells R it’s not done reading executable code and that layers belong together</li>
-</ul></li>
-<li><strong>layers are read in a specific order</strong>, the base is at the back and subsequent layers placed on top in order that they appear in the code</li>
-<li><strong>aesthetics</strong> are defined in <code>aes()</code> within layers</li>
-<li><strong>global</strong> graph attributes apply to all layers and are specified in the <strong>base layer</strong></li>
-<li><strong>local</strong> layer attributes apply only to the layer in which they appear, and are specified in the <strong>geometric objects</strong></li>
-</ul>
-<hr />
-<p>Now that we’ve covered <strong>one table verbs</strong> and plotting data, let’s look at how we deal with multiple tables that relate to each other with a very simple example.</p>
+<div id="code-wont-run-in-the-console" class="section level4">
+<h4>Code wont run, + in the console</h4>
+<pre class="r"><code>demonstration &lt;- read_csv(&quot;downloadables/cars_for_sale.csv&quot;</code></pre>
+<p>This error appears in the console as below:</p>
 <center>
-<a href="inner_join.html">inner_join(): bring two relational tables together</a>
+<img src="images/plus_error.png">
 </center>
+<p>What has happened? How do I fix it?</p>
 </div>
+</div>
+</div>
+<div id="warnings" class="section level2">
+<h2>Warnings</h2>
+<p>Warnings are something different than error messages. Normally we expect code to <em>either</em> <strong>work</strong> or <strong>not work</strong>… warnings indicate a third option- that it <em>kinda</em> worked.</p>
+<center>
+<em>-Still seeking simple example-</em>
+</center>
 </div>
 </div>
 

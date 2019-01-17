@@ -11,7 +11,7 @@
 
 
 
-<title>ggplot()</title>
+<title>Pipelines</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -386,93 +386,102 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">ggplot()</h1>
+<h1 class="title toc-ignore">Pipelines</h1>
 
 </div>
 
 
 <script src="reveal_extra.js"></script>
-<div id="exploratory-visualisation" class="section level1">
-<h1>Exploratory Visualisation</h1>
-<div id="ggplot-layered-plots-for-flexible-data-visualisations" class="section level2">
-<h2>ggplot(): layered plots for flexible data visualisations</h2>
-<p>After we have our descriptives we want to look at our data to get a feel for it. This should be done before any inferential statistics.</p>
-<p>In the first semester we used <code>ggplot()</code> and it’s associated functions to make a scatterplot. Lets do the same thing again, but this time using the new data set.</p>
-<p>We need to understand a few new things about how ggplot works before we continue!</p>
-<div id="layers" class="section level3">
-<h3>Layers</h3>
-<p>ggplot is actually a system which allows us to build a plot from the back to the front in a series of layers. I think about it as if I were drawing layers by hand on different transparent sheets of plastic and sticking them on top of each other on an old school overhead projector.</p>
-<p>You might think that this is an unneccessarily complicated way to go about things, but it means you can make some truly wonderful data visualisations. I find it much easier to understand… now!</p>
-<p>When I first started using ggplot I was <em>genuinely crap at it</em>. So crap at it, in fact, that I declared it my nemesis.</p>
-<p>Giving you this explanation is the way in which I continue to beat it into submission!</p>
-<p>The layer system is built from the background of the plot to the foreground. We can break down any plot into two main sections:</p>
+<div id="code" class="section level1">
+<h1>Code</h1>
+<p>Lines of code take an <strong>input</strong>, process this with a <strong>function</strong> and then give us an <strong>output</strong>. We have created many variables in going through this process, all with similar names and across a lot of different lines and chunks. Surely theres a more efficient way of doing it so that we are not getting confused with a lot of single-use objects?</p>
+<div id="our-code" class="section level2">
+<h2>Our code</h2>
+<p>I’ve taken all of the code that we used for the task we completed earlier from Prof. DeBruine’s data and stuck it all in one chunk, without the <code>ggplot</code> part.</p>
+<pre class="r"><code>library(tidyverse)
+
+dat &lt;- read_csv(&quot;DeBruine_2005_ProcB.csv&quot;)
+
+dat_filtered &lt;- filter(dat, age &gt;= 18)
+
+dat_arranged &lt;- arrange(dat_filtered, age)
+
+dat_selected &lt;- select(dat_arranged, id, sex, age, t_non, t_self, st_non, st_self)
+
+dat_mutated &lt;- mutate(dat_arranged, t_diff = t_self - t_non, st_diff = st_self - st_non)
+
+dat_grouped &lt;- group_by(dat_mutated, sex)
+
+descriptives &lt;- summarise(dat_grouped, 
+                          m_age = mean(age), 
+                          n = n()) </code></pre>
+<p>During this process we created 7 variables, many of which were only used <strong>once</strong>… hardly seems like an efficient use of storage space does it?</p>
+<p>Let’s see if we can improve matters using <strong>pipes</strong>.</p>
+</div>
+<div id="our-code-condensed" class="section level2">
+<h2>Our code, condensed</h2>
+<pre class="r"><code>library(tidyverse)
+
+dat &lt;- read_csv(&quot;DeBruine_2005_ProcB.csv&quot;)
+
+dat_mutated_2 &lt;- dat %&gt;%
+  filter(age &gt;= 18) %&gt;%
+  arrange(age) %&gt;%
+  select(id, sex, age, t_non, t_self, st_non, st_self) %&gt;%
+  mutate(t_diff = t_self - t_non, 
+         st_diff = st_self - st_non)
+
+descriptives_2 &lt;- dat_mutated_2 %&gt;%
+  group_by(sex) %&gt;%
+  summarise(m_age = mean(age),
+            n = n()) </code></pre>
+<p>Here is what we have second time around, 3 objects:</p>
 <ul>
-<li><strong>the base layer</strong>: created by calling the <code>ggplot()</code> function. Makes a space for a graph. Also used to declare any <em>“global”</em> attributes for the graph (stuff which applies to every single layer attached to this one base)</li>
-<li><strong>geom layers</strong>: geom stands for <em>“geometric object”</em>, created by calling any one or even multiple <code>geom_x()</code> functions. These tell R <em>how</em> to display the data.</li>
+<li><code>dat</code>: the same as before. I like to keep raw data inputs in their own thing.</li>
+<li><code>dat_mutated_new</code>: the combination of all stages from <code>dat_filtered</code> up to and including <code>dat_mutated</code></li>
+<li><code>descriptives_2</code>: group_by and summarise, using <code>dat_mutated_2</code> as the input</li>
 </ul>
-<p>Layers are strung together with the <code>+</code> symbol.</p>
-<p>Lets do a worked example to wrap our heads around it.</p>
-<div id="calling-ggplot-the-base-layer" class="section level4">
-<h4>Calling <code>ggplot()</code>: the base layer</h4>
-<p>Lets make a base layer for our plot:</p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff))</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
-<p>The first input is the data object we want to use to make the graph with. the second is <code>aes()</code>, which stands for aesthetics. Within its brackets we specify what to put on the x axis, followed by the y axis after the comma.</p>
-<p>Since it’s declared in the base layer it is <strong>global</strong>, meaning that these will be used for all layers of this graph.</p>
-<p>When we run the code though all we get is an empty space.</p>
-<p>This function on it’s own doesn’t really do much for us, to provide us with a meaningful output we need to tell R what to do with the data we have given it by specifying a <em>geom</em>.</p>
+<p>Can you spot the differences between our old code and our new code?</p>
 </div>
-<div id="adding-our-first-geom" class="section level4">
-<h4>Adding our first geom</h4>
-<p>Now that we’ve made a space for a graph let’s fill it up with something meaningful.</p>
-<p>Now let’s add some data points using <code>geom_point()</code></p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff)) +
-  geom_point()</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<p>Now we have our data points on there! But it’s looking rather bland. We can set some attributes for individual layers to jazz it up a bit:</p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff)) + 
-  geom_point(colour = &quot;orange&quot;)</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>Note: this aethetic information is not declared in <code>aes()</code>! If we want to flat out colour all the points a single colour we declare in in the brackets for the geometric object that we are using. We can set colours within <code>aes()</code>… but it does something different! Have a look and compare:</p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff)) +
-  geom_point(aes(colour = &quot;orange&quot;))</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
-<p>It has set all the points to orange, but it’s also added a nonsense legend. What’s <em>more</em> useful is to use the <code>aes()</code> colour specification to change the colours depending on a factor:</p>
-<pre class="r"><code>ggplot(dat_mutated, aes(st_diff, t_diff)) +
-  geom_point(aes(colour = sex))</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
-<p>When we set colour = some variable, each level of that variable will be assigned a different colour. Here all the females are red and males blue. This is good for when you want to look at details within your data set that might not be fully evident by lumping all levels of a variable together, such as examining interactions.</p>
-<p><strong>As a general rule</strong>, if you want to manually set a colour you do it <em>outside</em> of <code>aes()</code>, if you want R to automatically assign colours to levels of a variable you do it <em>inside</em> of <code>aes()</code>.</p>
-</div>
-<div id="stacking-multiple-layers" class="section level4">
-<h4>Stacking multiple layers</h4>
-<p>Nobody expects you to get all of this right now, but have a look and see if you can understand this code and how it produces the results that it does. Even mess about with it… change stuff and see what happens!</p>
-<pre class="r"><code>ggplot(data = dat_mutated, aes(st_diff, t_diff)) + # base
-  geom_point(aes(colour = sex)) + # data points
-  geom_smooth(data = filter(dat_mutated, sex == &quot;female&quot;), method = &quot;lm&quot;, se = F, colour = &quot;tomato2&quot;) + # line of best fit for females
-  geom_smooth(data = filter(dat_mutated, sex == &quot;male&quot;), method = &quot;lm&quot;, se = F, colour = &quot;deepskyblue&quot;) # line of best fit for males</code></pre>
-<p><img src="ggplot_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-</div>
-</div>
-<div id="points-to-remember" class="section level3">
-<h3>Points to remember</h3>
+<div id="what-did-we-even-do" class="section level2">
+<h2>What did we even do?</h2>
+<p>We did a number of things here:</p>
 <ul>
-<li>ggplot is a system of layered graphics which could be described as being of two main sections:
+<li>we used the characters <strong>%&gt;%</strong> at the end of each line</li>
+<li>we stacked multiple lines together, each with <strong>one function</strong></li>
+<li>the functions <strong>first argument is missing</strong>, which is <em>always</em> the data input argument in the tidyverse functions
 <ul>
-<li><strong>a base layer</strong> which creates a space for a graph</li>
-<li><strong>geometric objects</strong>, otherwise known as <strong>“geoms”</strong>, define what the graph looks like. Many of these can be stacked</li>
-<li><strong>+</strong> is used at the end of the code for a layer, which tells R it’s not done reading executable code and that layers belong together</li>
+<li>remember we discussed this earlier?</li>
 </ul></li>
-<li><strong>layers are read in a specific order</strong>, the base is at the back and subsequent layers placed on top in order that they appear in the code</li>
-<li><strong>aesthetics</strong> are defined in <code>aes()</code> within layers</li>
-<li><strong>global</strong> graph attributes apply to all layers and are specified in the <strong>base layer</strong></li>
-<li><strong>local</strong> layer attributes apply only to the layer in which they appear, and are specified in the <strong>geometric objects</strong></li>
 </ul>
-<hr />
-<p>Now that we’ve covered <strong>one table verbs</strong> and plotting data, let’s look at how we deal with multiple tables that relate to each other with a very simple example.</p>
-<center>
-<a href="inner_join.html">inner_join(): bring two relational tables together</a>
-</center>
+<p>The <strong>%&gt;%</strong> tells R to take the <strong>output</strong> of the function which preceeds it on that line and put it into the <strong>first argument</strong> of the function that follows on the next line…. just so happens that all of the Tidyverse functions we’ve used have the <strong>input</strong> as the first argument! Convenient, eh?</p>
+<p>When reading off the code, try substituting the <strong>%&gt;%</strong> with the phrase “and then”</p>
+<pre class="r"><code>dat_mutated_2 &lt;- dat %&gt;% # put dat into dat_mutated_2... AND THEN
+  filter(age &gt;= 18) %&gt;% # filter age equal to or greater than 18... AND THEN
+  arrange(age) %&gt;% # arrange the result by age ascending... AND THEN
+  select(id, sex, age, t_non, t_self, st_non, st_self) %&gt;% # only keep these columns... AND THEN
+  mutate(t_diff = t_self - t_non, 
+         st_diff = st_self - st_non) # create these new variables</code></pre>
+</div>
+<div id="why-care" class="section level2">
+<h2>Why Care?</h2>
+<div id="code-clarity-and-efficiency" class="section level3">
+<h3>Code Clarity and Efficiency</h3>
+<p>There will come a time when you have complex analyses to run, you may have a lot of objects in your environment and not want to retain single use ones which ight just get in your way.</p>
+</div>
+<div id="nesting-functions" class="section level3">
+<h3>Nesting Functions</h3>
+<p>There will also be a time when you want to do more than one thing and, in other programming languages, would have to <strong>nest</strong> functions within functions within functions… and that is literally function-ception.</p>
+<p>If we were to create <code>dat_mutated_3</code> to be the same as <code>dat_mutated_2</code> by nesting functions inside each other, it would look something like this:</p>
+<pre class="r"><code>dat_mutated_3 &lt;- mutate(
+  select(
+    arrange(
+      filter(dat, age &gt;= 18), age), 
+    id, sex, age, t_non, t_self, st_non, st_self), 
+  t_diff = t_self - t_non,
+  st_diff = st_self - st_non)</code></pre>
+<p>It will melt your brain, your face and your eyes. Pipes help you voice nesting by taking one output and slotting it straight into another. This makes it <strong>linear, instead of inside out</strong> (where the first thing done is in the centre and you work outwards). This makes it easier for us humans to understand. It also allows you to keep comments about a single function on one line, not spread over at least 2.</p>
+<p>Try doing <a href="in_class_cars_task.html">this</a> exercise, then try changing it to piped (using <strong>%&gt;%</strong>) and then try doing it nested.</p>
 </div>
 </div>
 </div>

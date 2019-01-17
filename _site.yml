@@ -32,7 +32,7 @@ navbar:
   - text: "Extras"
     menu:
     - text: "Diagnosing Errors"
-      href: construction.html
+      href: diagnosing_errors.html
     - text: "Adjusting Appearance of RStudio"
       href: construction.html
     - text: "Reproduciblilty Issues"
@@ -40,7 +40,7 @@ navbar:
     - text: "Playtime with Built in Data"
       href: construction.html
     - text: "Pipelines"
-      href: construction.html
+      href: pipelines.html
   - text: "Tasks"
     menu:
     - text: "1A Recap: Cars Task"
