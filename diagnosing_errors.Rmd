@@ -25,10 +25,10 @@ Let's have a look at what different types of thing R could be telling you.
 
 ## Errors
 
-Defintely the one that people worry about the most. Let's do something that will definitely generate an error and have a look at it:
+Defintely the one that people worry about the most, but error messages given information about what has gone wrong. By reading and interpretting these messages we can diagnose the problem and fix it- a process called **debugging**. Let's do something that will definitely generate an error and have a look at it:
 
 ```{r error=TRUE}
-demo <- read_csv("some_file_name.csv")
+demo <- read_cvs("some_file_name.csv")
 ```
 
 Breaking it down:
@@ -53,7 +53,7 @@ What does the error message tell you? What happened and what do you think I shou
 #### Could not find function
 
 ```{r error=TRUE}
-demonstration <- read_csv("downloadables/cars_for_sale.csv")
+demonstration <- read_cvs("downloadables/cars_for_sale.csv")
 ```
 
 This is the same example as the top of the page. What do you think it means? How is it fixed?
@@ -88,8 +88,18 @@ This error appears in the console as below:
 
 What has happened? How do I fix it?
 
+### Multiple Errors
+
+If you have an error in your script on an earlier line, and have code later which depends on the success of running this earlier line, then you are also going have problems. Later code which might otherwise work would be missing a key component which would cause errors further down.
+
+Sometimes finding the source of an error requires you to go back to look through your code, keep this in mind when debugging!
+
+For example: `libraary(tidyverse)` fails to load the appropriate package containing the function we need (`read_csv()`), which then means we do not load the data file we want.
+
+You can help prevent this sort of thing from happening by running all lines of code individually, rerunning later code after you've made changes to earlier code and periodically restarting the R session.
+
 ## Warnings
 
 Warnings are something different than error messages. Normally we expect code to *either* **work** or **not work**... warnings indicate a third option- that it *kinda* worked.
 
-<center>*-Still seeking simple example-*</center>
+<center>*-Still seeking simple example-*</center> 

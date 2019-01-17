@@ -402,9 +402,9 @@ div.tocify {
 <h1>Types of Text Output</h1>
 <div id="errors" class="section level2">
 <h2>Errors</h2>
-<p>Defintely the one that people worry about the most. Let’s do something that will definitely generate an error and have a look at it:</p>
-<pre class="r"><code>demo &lt;- read_csv(&quot;some_file_name.csv&quot;)</code></pre>
-<pre><code>## Error: &#39;some_file_name.csv&#39; does not exist in current working directory (&#39;/Users/rebeccal/Documents/Level 1 materials/1A_recap&#39;).</code></pre>
+<p>Defintely the one that people worry about the most, but error messages given information about what has gone wrong. By reading and interpretting these messages we can diagnose the problem and fix it- a process called <strong>debugging</strong>. Let’s do something that will definitely generate an error and have a look at it:</p>
+<pre class="r"><code>demo &lt;- read_cvs(&quot;some_file_name.csv&quot;)</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;read_cvs&quot;</code></pre>
 <p>Breaking it down:</p>
 <ul>
 <li><code>Error...</code>: error messages are always preceeded by the word error</li>
@@ -424,21 +424,8 @@ div.tocify {
 </div>
 <div id="could-not-find-function" class="section level4">
 <h4>Could not find function</h4>
-<pre class="r"><code>demonstration &lt;- read_csv(&quot;downloadables/cars_for_sale.csv&quot;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   manufacturer = col_character(),
-##   model = col_character(),
-##   displ = col_double(),
-##   year = col_integer(),
-##   cyl = col_integer(),
-##   trans = col_character(),
-##   drv = col_character(),
-##   cty = col_integer(),
-##   hwy = col_integer(),
-##   fl = col_character(),
-##   class = col_character()
-## )</code></pre>
+<pre class="r"><code>demonstration &lt;- read_cvs(&quot;downloadables/cars_for_sale.csv&quot;)</code></pre>
+<pre><code>## Error in eval(expr, envir, enclos): could not find function &quot;read_cvs&quot;</code></pre>
 <p>This is the same example as the top of the page. What do you think it means? How is it fixed?</p>
 </div>
 <div id="could-not-find-object" class="section level4">
@@ -471,6 +458,13 @@ div.tocify {
 </center>
 <p>What has happened? How do I fix it?</p>
 </div>
+</div>
+<div id="multiple-errors" class="section level3">
+<h3>Multiple Errors</h3>
+<p>If you have an error in your script on an earlier line, and have code later which depends on the success of running this earlier line, then you are also going have problems. Later code which might otherwise work would be missing a key component which would cause errors further down.</p>
+<p>Sometimes finding the source of an error requires you to go back to look through your code, keep this in mind when debugging!</p>
+<p>For example: <code>libraary(tidyverse)</code> fails to load the appropriate package containing the function we need (<code>read_csv()</code>), which then means we do not load the data file we want.</p>
+<p>You can help prevent this sort of thing from happening by running all lines of code individually, rerunning later code after you’ve made changes to earlier code and periodically restarting the R session.</p>
 </div>
 </div>
 <div id="warnings" class="section level2">
