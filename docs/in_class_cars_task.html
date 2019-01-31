@@ -97,6 +97,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -111,7 +114,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -131,6 +133,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -152,18 +191,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -198,7 +296,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Functions We Used
+    Semester 1
      
     <span class="caret"></span>
   </a>
@@ -234,6 +332,21 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Semester 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pipelines.html">Pipelines</a>
+    </li>
+    <li>
+      <a href="construction.hmtl">The Binomial Distribution</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Extras
      
     <span class="caret"></span>
@@ -250,9 +363,6 @@ $(document).ready(function () {
     </li>
     <li>
       <a href="construction.html">Playtime with Built in Data</a>
-    </li>
-    <li>
-      <a href="pipelines.html">Pipelines</a>
     </li>
   </ul>
 </li>
@@ -289,15 +399,17 @@ $(document).ready(function () {
 
 <div id="task" class="section level1">
 <h1>Task</h1>
-<p>In groups we are going to work through a task. In response to feedback from the reps, it is a less abstract task and so is focused on a real-world question…</p>
+<p>In response to feedback from the reps, here is a less abstract task and so is focused on a real-world question…</p>
 <p><strong>I want to buy a car. Help me pick!</strong></p>
-<p>We are doing this in groups because we will never be coding in a vacuum! We Google things, talk to colleagues, look up discussion boards etc.</p>
-<p>Talking through some tricky stuff can help us wrap our heads around it, and explaining things to others can enhance our own understanding of what we are explaining.</p>
+<p>If you are brand new to R I would recommend doing this in groups because we will never be coding in a vacuum! We Google things, talk to colleagues, look up discussion boards etc.</p>
+<p>Talking through some tricky stuff can help us wrap our heads around it, and explaining things to others can enhance our own understanding.</p>
 <p>Also to remember to look at the help files if you need to!</p>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>Download the files <a href="downloadables/cars_for_sale.csv">cars_for_sale.csv</a> and <a href="downloadables/prices.csv">prices.csv</a> and put them in a folder (directory) which you can safely save your work to (H or M drive). The first .csv contains a list of cars for sale with some information that will help us decide and the second .csv their prices.</p>
-<p>You should also open a new R script or .Rmd file and save it with an appropriate name in this very same location. <em>It’s just good practice to keep all files for the same project in the same place for ease of access</em>.</p>
+<p>Download the files <a href="downloadables/cars_for_sale.csv">cars_for_sale.csv</a> and <a href="downloadables/prices.csv">prices.csv</a> and put them in a folder (directory) which you can safely save your work to (H or M drive if on a university machine). The first .csv contains a list of cars for sale with some information that will help us decide and the second .csv their prices.</p>
+<p>You should also open a new R script or .Rmd file and save it with an appropriate name in this very same location. <em>It’s just good practice to keep all files for the same project in the same place for ease of access and organisation</em>.</p>
+<p>I have given you some variable names below, but feel free to call them what you want. Bear in mind that the names <em>must make sense</em>, if someone else reads your code (or you revisit it at a later date) these will remind you of what they are!</p>
+<p>Just as in the homeworks, they are given a value of <code>NULL</code> (nothing), <em>delete this part only</em> and replace it with the appropriate code.</p>
 </div>
 <div id="setting-the-working-directory" class="section level2">
 <h2>Setting the Working Directory</h2>
@@ -306,39 +418,50 @@ $(document).ready(function () {
 <div id="required-packages" class="section level2">
 <h2>Required Packages</h2>
 <p>Load the appropriate package from the library.</p>
+<pre class="r"><code># what package have we been using? What function loads it?</code></pre>
 </div>
 <div id="reading-in-our-data-files" class="section level2">
 <h2>Reading in our data files</h2>
 <p>Read in the two .csv files <code>cars_for_sale.csv</code> and <code>prices.csv</code>.</p>
+<pre class="r"><code>cars &lt;- NULL
+prices &lt;- NULL</code></pre>
 </div>
 <div id="selecting-variables-to-keep-or-remove" class="section level2">
 <h2>Selecting variables to keep or remove</h2>
-<p>I don’t much care about whatever-wheel-drive the vehicle is, or what the highway fuel consumption rate is, and all of the cars on this list are manual gearboxes, so we can bin those three columns. variables.</p>
+<p>I don’t much care about whatever-wheel-drive the vehicle is, or what the highway fuel consumption rate is, and all of the cars on this list are manual gearboxes, so we can bin those three columns/variables.</p>
 <p>Remove the columns <code>trans</code>, <code>hwy</code> and <code>drv</code> from the data table <code>cars</code>.</p>
+<pre class="r"><code>cars_selected &lt;- NULL</code></pre>
 </div>
 <div id="filtering-unwanted-rows" class="section level2">
 <h2>Filtering unwanted rows</h2>
 <p>There are some cars that just don’t suit my needs, or plain just don’t suit my life or driving style. The car must not be a 2 seater, an SUV or pick-up truck.</p>
 <p>Remove rows that relate to the <code>class</code> of <code>2seater</code>, <code>suv</code> and <code>pickup</code> from <code>cars_selected</code>.</p>
+<pre class="r"><code>cars_filtered &lt;- NULL</code></pre>
 </div>
 <div id="calculating-summary-statistics-by-groups" class="section level2">
 <h2>Calculating summary statistics by groups</h2>
 <p>I want a car that has better than average city fuel consumption. Before we can do that, we need to know what that value is. Additionally, this varies by fuel type.</p>
 <p>Group the <code>cars_filtered</code> data by fuel type <code>fl</code> and calculate the mean for each.</p>
+<pre class="r"><code>cars_grouped &lt;- NULL
+
+cars_summarised &lt;- NULL</code></pre>
 </div>
 <div id="creating-new-columns" class="section level2">
 <h2>Creating new columns</h2>
 <p>Add a column called <code>lower</code> to <strong><code>cars_filtered</code></strong> that gives a <code>TRUE</code> if the mean city fuel consumption is greater than or equal to that for the mean of <code>p</code> (given in <code>cars_summarised</code>), or <code>FALSE</code> if it is lower.</p>
 <p><strong>Remember that fuel economy = higher the miles per gallon the better!</strong></p>
+<pre class="r"><code>cars_mutated &lt;- NULL</code></pre>
 </div>
 <div id="joining-data-tables" class="section level2">
 <h2>Joining data tables</h2>
-<p>Now we need to add the pricing information.</p>
-<p>Join <code>cars_mutated</code> with <code>prices</code>. Note that we have <strong>3</strong> key variables here, <code>manufacturer</code>, <code>model</code> and <code>year</code>!</p>
+<p>Now we need to add the pricing information from the other data file we imported.</p>
+<p>Join <code>cars_mutated</code> with <code>prices</code>. Note that we have <strong>3</strong> key variables here that we need to join on using <code>by=</code>. These are <code>manufacturer</code>, <code>model</code> and <code>year</code>.</p>
+<pre class="r"><code>cars_joined &lt;- NULL</code></pre>
 </div>
 <div id="arranging-our-data" class="section level2">
 <h2>Arranging our data</h2>
-<p>Arrange <code>cars_mutated</code> by <code>cty</code> in descending order.</p>
+<p>Arrange <code>cars_mutated</code> by <code>cty</code> in descending order. This will mean that the highest miles-per-gallon is at the top of the list.</p>
+<pre class="r"><code>cars_arranged &lt;- NULL</code></pre>
 </div>
 <div id="name-that-car" class="section level2">
 <h2>Name that Car!</h2>
@@ -348,11 +471,13 @@ $(document).ready(function () {
 <h2>Graph it!</h2>
 <p>Make a scatterplot of the <code>cty</code> fuel consumption on the x axis against <code>displ</code> engine displacement (in litres) on the y axis.</p>
 <p>Brownie points for anyone who can level up the graph by making the points different colours for those above and below the mean for petrol cars.</p>
+<pre class="r"><code># remember to look at the page on ggplot, the help files and the cheatsheet if you need help</code></pre>
 </div>
 </div>
 <div id="done" class="section level1">
 <h1>Done?</h1>
-<p>Want to check your work? Right click <a href="downloadables/cars_1a_SOLUTIONS.Rmd">solutions</a>and select “save as” to download the .Rmd.</p>
+<p>Want to check your work? Right click <a href="downloadables/cars_1a_SOLUTIONS.Rmd">solutions </a>and select “save as” to download the .Rmd.</p>
+<p>Once you are finished and satisfied that your answers are correct, arrange your .Rmd file so that it is easy to read and understand. You can do this by using new lines as discussed in the semester 1 page on the function <a href="mutate.html"> <code>mutate()</code></a> (see the part on readability). Also insert comments using # and text in the parts between chunks.</p>
 </div>
 
 

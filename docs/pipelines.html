@@ -100,6 +100,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -114,7 +117,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -134,6 +136,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -155,18 +194,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -302,7 +400,7 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Functions We Used
+    Semester 1
      
     <span class="caret"></span>
   </a>
@@ -338,6 +436,21 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Semester 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pipelines.html">Pipelines</a>
+    </li>
+    <li>
+      <a href="construction.hmtl">The Binomial Distribution</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Extras
      
     <span class="caret"></span>
@@ -354,9 +467,6 @@ div.tocify {
     </li>
     <li>
       <a href="construction.html">Playtime with Built in Data</a>
-    </li>
-    <li>
-      <a href="pipelines.html">Pipelines</a>
     </li>
   </ul>
 </li>
@@ -397,7 +507,7 @@ div.tocify {
 <p>Lines of code take an <strong>input</strong>, process this with a <strong>function</strong> and then give us an <strong>output</strong>. We have created many variables in going through this process, all with similar names and across a lot of different lines and chunks. Surely theres a more efficient way of doing it so that we are not getting confused with a lot of single-use objects?</p>
 <div id="our-code" class="section level2">
 <h2>Our code</h2>
-<p>I’ve taken all of the code that we used for the task we completed earlier from Prof. DeBruine’s data and stuck it all in one chunk, without the <code>ggplot</code> part.</p>
+<p>I’ve taken all of the code that we used for the task we completed going through the semester 1 materials from Prof. DeBruine’s data. It’s stuck it all in one chunk for convenience, without the <code>ggplot</code> part.</p>
 <pre class="r"><code>library(tidyverse)
 
 dat &lt;- read_csv(&quot;DeBruine_2005_ProcB.csv&quot;)
@@ -415,7 +525,7 @@ dat_grouped &lt;- group_by(dat_mutated, sex)
 descriptives &lt;- summarise(dat_grouped, 
                           m_age = mean(age), 
                           n = n()) </code></pre>
-<p>During this process we created 7 variables, many of which were only used <strong>once</strong>… hardly seems like an efficient use of storage space does it?</p>
+<p>During this process we created 7 variables, many of which were only used <strong>once</strong>… hardly seems like an efficient does it? We clutter our environment with objects, some of which have very similar names, and this might cause us to use the wrong variable at some point.</p>
 <p>Let’s see if we can improve matters using <strong>pipes</strong>.</p>
 </div>
 <div id="our-code-condensed" class="section level2">
@@ -435,10 +545,10 @@ descriptives_2 &lt;- dat_mutated_2 %&gt;%
   group_by(sex) %&gt;%
   summarise(m_age = mean(age),
             n = n()) </code></pre>
-<p>Here is what we have second time around, 3 objects:</p>
+<p>Here is what we have second time around using pipes, 3 objects:</p>
 <ul>
 <li><code>dat</code>: the same as before. I like to keep raw data inputs in their own thing.</li>
-<li><code>dat_mutated_new</code>: the combination of all stages from <code>dat_filtered</code> up to and including <code>dat_mutated</code></li>
+<li><code>dat_mutated_2</code>: the combination of all stages from <code>dat_filtered</code> up to and including <code>dat_mutated</code></li>
 <li><code>descriptives_2</code>: group_by and summarise, using <code>dat_mutated_2</code> as the input</li>
 </ul>
 <p>Can you spot the differences between our old code and our new code?</p>
@@ -461,17 +571,17 @@ descriptives_2 &lt;- dat_mutated_2 %&gt;%
   arrange(age) %&gt;% # arrange the result by age ascending... AND THEN
   select(id, sex, age, t_non, t_self, st_non, st_self) %&gt;% # only keep these columns... AND THEN
   mutate(t_diff = t_self - t_non, 
-         st_diff = st_self - st_non) # create these new variables</code></pre>
+         st_diff = st_self - st_non) # create these two new variables (t_diff &amp; st_diff)</code></pre>
 </div>
 <div id="why-care" class="section level2">
 <h2>Why Care?</h2>
 <div id="code-clarity-and-efficiency" class="section level3">
 <h3>Code Clarity and Efficiency</h3>
-<p>There will come a time when you have complex analyses to run, you may have a lot of objects in your environment and not want to retain single use ones which ight just get in your way.</p>
+<p>There will come a time when you have complex analyses to run, you may have a lot of objects in your environment and not want to retain single use ones which might just get in your way.</p>
 </div>
 <div id="nesting-functions" class="section level3">
 <h3>Nesting Functions</h3>
-<p>There will also be a time when you want to do more than one thing and, in other programming languages, would have to <strong>nest</strong> functions within functions within functions… and that is literally function-ception.</p>
+<p>There will also be a time when you want to do more than one thing and, in other programming languages, would have to <strong>nest</strong> functions within functions within functions… and this function-ception can get messy and be hard to understand.</p>
 <p>If we were to create <code>dat_mutated_3</code> to be the same as <code>dat_mutated_2</code> by nesting functions inside each other, it would look something like this:</p>
 <pre class="r"><code>dat_mutated_3 &lt;- mutate(
   select(
@@ -480,7 +590,9 @@ descriptives_2 &lt;- dat_mutated_2 %&gt;%
     id, sex, age, t_non, t_self, st_non, st_self), 
   t_diff = t_self - t_non,
   st_diff = st_self - st_non)</code></pre>
-<p>It will melt your brain, your face and your eyes. Pipes help you voice nesting by taking one output and slotting it straight into another. This makes it <strong>linear, instead of inside out</strong> (where the first thing done is in the centre and you work outwards). This makes it easier for us humans to understand. It also allows you to keep comments about a single function on one line, not spread over at least 2.</p>
+<p>It will melt your brain, your face and your eyes for really complex tasks. Pipes help you voice nesting by taking one output and slotting it straight into another.</p>
+<p>This makes it <strong>linear, instead of inside out</strong> (where the first thing done is in the centre and you work outwards). This makes it easier for our puny, mistake-prone human brains to understand.</p>
+<p>It also allows you to keep comments about a single function on one line, not spread over at least 2.</p>
 <p>Try doing <a href="in_class_cars_task.html">this</a> exercise, then try changing it to piped (using <strong>%&gt;%</strong>) and then try doing it nested.</p>
 </div>
 </div>

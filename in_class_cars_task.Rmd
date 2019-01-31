@@ -4,27 +4,31 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE,
+knitr::opts_chunk$set(echo = T,
                       eval = FALSE)
 ```
 
 # Task
 
-In groups we are going to work through a task. In response to feedback from the reps, it is a less abstract task and so is focused on a real-world question...
+In response to feedback from the reps, here is a less abstract task and so is focused on a real-world question...
 
 **I want to buy a car. Help me pick!**
 
-We are doing this in groups because we will never be coding in a vacuum! We Google things, talk to colleagues, look up discussion boards etc. 
+If you are brand new to R I would recommend doing this in groups because we will never be coding in a vacuum! We Google things, talk to colleagues, look up discussion boards etc. 
 
-Talking through some tricky stuff can help us wrap our heads around it, and explaining things to others can enhance our own understanding of what we are explaining.
+Talking through some tricky stuff can help us wrap our heads around it, and explaining things to others can enhance our own understanding.
 
 Also to remember to look at the help files if you need to!
 
 ## Data
 
-Download the  files <a href="downloadables/cars_for_sale.csv">cars_for_sale.csv</a> and <a href="downloadables/prices.csv">prices.csv</a> and put them in a folder (directory) which you can safely save your work to (H or M drive). The first .csv contains a list of cars for sale with some information that will help us decide and the second .csv their prices.
+Download the  files <a href="downloadables/cars_for_sale.csv">cars_for_sale.csv</a> and <a href="downloadables/prices.csv">prices.csv</a> and put them in a folder (directory) which you can safely save your work to (H or M drive if on a university machine). The first .csv contains a list of cars for sale with some information that will help us decide and the second .csv their prices.
 
-You should also open a new R script or .Rmd file and save it with an appropriate name in this very same location. *It's just good practice to keep all files for the same project in the same place for ease of access*.
+You should also open a new R script or .Rmd file and save it with an appropriate name in this very same location. *It's just good practice to keep all files for the same project in the same place for ease of access and organisation*.
+
+I have given you some variable names below, but feel free to call them what you want. Bear in mind that the names *must make sense*, if someone else reads your code (or you revisit it at a later date) these will remind you of what they are!
+
+Just as in the homeworks, they are given a value of `NULL` (nothing), *delete this part only* and replace it with the appropriate code.
 
 ## Setting the Working Directory
 
@@ -35,21 +39,21 @@ Set your working directory by going to `Session > Set Working Directory` and sel
 Load the appropriate package from the library. 
 
 ```{r lib}
-
+# what package have we been using? What function loads it?
 ```
 
 ## Reading in our data files
 
 Read in the two .csv files `cars_for_sale.csv` and `prices.csv`.
 
-```{r read_csv}
+```{r read_csv, include = T}
 cars <- NULL
 prices <- NULL
 ```
 
 ## Selecting variables to keep or remove
 
-I don't much care about whatever-wheel-drive the vehicle is, or what the highway fuel consumption rate is, and all of the cars on this list are manual gearboxes, so we can bin those three columns. variables.
+I don't much care about whatever-wheel-drive the vehicle is, or what the highway fuel consumption rate is, and all of the cars on this list are manual gearboxes, so we can bin those three columns/variables.
 
 Remove the columns `trans`, `hwy` and `drv` from the data table `cars`.
 
@@ -91,9 +95,9 @@ cars_mutated <- NULL
 
 ## Joining data tables
 
-Now we need to add the pricing information.
+Now we need to add the pricing information from the other data file we imported.
 
-Join `cars_mutated` with `prices`. Note that we have **3** key variables here, `manufacturer`, `model` and `year`!
+Join `cars_mutated` with `prices`. Note that we have **3** key variables here that we need to join on using `by=`. These are `manufacturer`, `model` and `year`.
 
 ```{r}
 cars_joined <- NULL
@@ -101,7 +105,7 @@ cars_joined <- NULL
 
 ## Arranging our data
 
-Arrange `cars_mutated` by `cty` in descending order.
+Arrange `cars_mutated` by `cty` in descending order. This will mean that the highest miles-per-gallon is at the top of the list.
 
 ```{r}
 cars_arranged <- NULL
@@ -118,12 +122,14 @@ Make a scatterplot of the `cty` fuel consumption on the x axis against `displ` e
 Brownie points for anyone who can level up the graph by making the points different colours for those above and below the mean for petrol cars.
 
 ```{r scatterplot}
-
+# remember to look at the page on ggplot, the help files and the cheatsheet if you need help
 ```
 
 # Done?
 
-Want to check your work? Right click <a href="downloadables/cars_1a_SOLUTIONS.Rmd">solutions</a>and select "save as" to download the .Rmd.
+Want to check your work? Right click <a href="downloadables/cars_1a_SOLUTIONS.Rmd">solutions </a>and select "save as" to download the .Rmd.
+
+Once you are finished and satisfied that your answers are correct, arrange your .Rmd file so that it is easy to read and understand. You can do this by using new lines as discussed in the semester 1 page on the function <a href="mutate.html"> `mutate()`</a> (see the part on readability). Also insert comments using # and text in the parts between chunks.
 
 
 
