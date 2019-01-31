@@ -5,9 +5,9 @@ output: html_document
 
 ## Purpose of this site
 
-Welcome to Rebecca's revision website for the practical component to the Psychology 1A labs. This is a personal project of mine, not officially adopted by the teaching team but for the most part they are aware that it exists. 
+Welcome to Rebecca's revision website for the practical component to the Psychology level 1 labs. This is a personal project of mine, not officially adopted by the teaching team but for the most part they are aware that it exists. 
 
-The site is very much under construction, so patience please! You have your Moodle Forums, Slack Channels, lab leaders and GTAs for questions.
+The site is very much under construction, so patience please! You have your Moodle Forums, Slack Channels, lab leaders and GTAs for questions. Changes will be logged at the bottom of this page.
 
 Based on the general feedback from the homeworks completed in 1A and feeback from teaching staff we have compiled this to serve as revision materials for those wishing to fortify and deepen understanding of the skills developed so far. It also allows those joining us for 1B to catch up on the materials missed in the first semester.
 
@@ -38,3 +38,11 @@ These pages contain the additional information that you can use to level up your
 I have made some practice tasks, anyone can have a bash at these and check their responses against the solutions (which are provided). Be honest with yourself, it's the best way to proceed and learn!
 
 I plan to add more of these as I go, but as this is a personal project done in my own personal time it might be a little delayed!
+
+## Change Log
+
+Changes that have been made for those who don't want to wade through the Github versions.
+
+Date      | Change
+----------|-----------------------------------------------------------------------------
+31-1-19   | Cars task page clarifications, typos in pipes corrected, changelog addition, reorganising by semesters 1 and 2.

@@ -19,7 +19,7 @@ Lines of code take an **input**, process this with a **function** and then give 
 
 ## Our code
 
-I've taken all of the code that we used for the task we completed earlier from Prof. DeBruine's data and stuck it all in one chunk, without the `ggplot` part.
+I've taken all of the code that we used for the task we completed going through the semester 1 materials from Prof. DeBruine's data. It's stuck it all in one chunk for convenience, without the `ggplot` part.
 
 ```{r message=F}
 library(tidyverse)
@@ -41,7 +41,7 @@ descriptives <- summarise(dat_grouped,
                           n = n()) 
 ```
 
-During this process we created 7 variables, many of which were only used **once**... hardly seems like an efficient use of storage space does it?
+During this process we created 7 variables, many of which were only used **once**... hardly seems like an efficient does it? We clutter our environment with objects, some of which have very similar names, and this might cause us to use the wrong variable at some point.
 
 Let's see if we can improve matters using **pipes**.
 
@@ -65,10 +65,10 @@ descriptives_2 <- dat_mutated_2 %>%
             n = n()) 
 ```
 
-Here is what we have second time around, 3 objects:
+Here is what we have second time around using pipes, 3 objects:
 
 - `dat`: the same as before. I like to keep raw data inputs in their own thing.
-- `dat_mutated_new`: the combination of all stages from `dat_filtered` up to and including `dat_mutated`
+- `dat_mutated_2`: the combination of all stages from `dat_filtered` up to and including `dat_mutated`
 - `descriptives_2`: group_by and summarise, using `dat_mutated_2` as the input
 
 Can you spot the differences between our old code and our new code? 
@@ -92,18 +92,18 @@ dat_mutated_2 <- dat %>% # put dat into dat_mutated_2... AND THEN
   arrange(age) %>% # arrange the result by age ascending... AND THEN
   select(id, sex, age, t_non, t_self, st_non, st_self) %>% # only keep these columns... AND THEN
   mutate(t_diff = t_self - t_non, 
-         st_diff = st_self - st_non) # create these new variables
+         st_diff = st_self - st_non) # create these two new variables (t_diff & st_diff)
 ```
 
 ## Why Care?
 
 ### Code Clarity and Efficiency
 
-There will come a time when you have complex analyses to run, you may have a lot of objects in your environment and not want to retain single use ones which ight just get in your way.
+There will come a time when you have complex analyses to run, you may have a lot of objects in your environment and not want to retain single use ones which might just get in your way.
 
 ### Nesting Functions
 
-There will also be a time when you want to do more than one thing and, in other programming languages, would have to **nest** functions within functions within functions... and that is literally function-ception. 
+There will also be a time when you want to do more than one thing and, in other programming languages, would have to **nest** functions within functions within functions... and this function-ception can get messy and be hard to understand.
 
 If we were to create `dat_mutated_3` to be the same as `dat_mutated_2` by nesting functions inside each other, it would look something like this:
 
@@ -118,7 +118,11 @@ dat_mutated_3 <- mutate(
 
 ```
 
-It will melt your brain, your face and your eyes. Pipes help you voice nesting by taking one output and slotting it straight into another. This makes it **linear, instead of inside out** (where the first thing done is in the centre and you work outwards). This makes it easier for us humans to understand. It also allows you to keep comments about a single function on one line, not spread over at least 2.
+It will melt your brain, your face and your eyes for really complex tasks. Pipes help you voice nesting by taking one output and slotting it straight into another. 
+
+This makes it **linear, instead of inside out** (where the first thing done is in the centre and you work outwards). This makes it easier for our puny, mistake-prone human brains to understand. 
+
+It also allows you to keep comments about a single function on one line, not spread over at least 2.
 
 Try doing <a href="in_class_cars_task.html">this</a> exercise, then try changing it to piped (using **%>%**) and then try doing it nested.
 

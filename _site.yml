@@ -9,7 +9,7 @@ navbar:
       href: R_and_file_types.html
     - text: "Sessions, directories, functions & packages"
       href: packages.html
-  - text: "Functions We Used"
+  - text: "Semester 1"
     menu:
     - text: "read_csv()"
       href: read_csv.html
@@ -29,6 +29,12 @@ navbar:
       href: ggplot.html
     - text: "inner_join()"
       href: inner_join.html
+  - text: "Semester 2"
+    menu:
+    - text: "Pipelines"
+      href: pipelines.html
+    - text: "The Binomial Distribution"
+      href: construction.html
   - text: "Extras"
     menu:
     - text: "Diagnosing Errors"
@@ -39,11 +45,9 @@ navbar:
       href: construction.html
     - text: "Playtime with Built in Data"
       href: construction.html
-    - text: "Pipelines"
-      href: pipelines.html
   - text: "Tasks"
     menu:
-    - text: "1A Recap: Cars Task"
+    - text: "1A: Cars Task"
       href: in_class_cars_task.html
   right:
   - text: Feedback

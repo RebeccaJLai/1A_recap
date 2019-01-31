@@ -97,6 +97,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -111,7 +114,6 @@ body {
   padding-top: 56px;
   margin-top: -56px;
 }
-
 .section h2 {
   padding-top: 56px;
   margin-top: -56px;
@@ -131,6 +133,43 @@ body {
 .section h6 {
   padding-top: 56px;
   margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
 }
 </style>
 
@@ -152,18 +191,77 @@ $(document).ready(function () {
 });
 </script>
 
-
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -198,7 +296,7 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Functions We Used
+    Semester 1
      
     <span class="caret"></span>
   </a>
@@ -234,6 +332,21 @@ $(document).ready(function () {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Semester 2
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="pipelines.html">Pipelines</a>
+    </li>
+    <li>
+      <a href="construction.html">The Binomial Distribution</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Extras
      
     <span class="caret"></span>
@@ -251,9 +364,6 @@ $(document).ready(function () {
     <li>
       <a href="construction.html">Playtime with Built in Data</a>
     </li>
-    <li>
-      <a href="pipelines.html">Pipelines</a>
-    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -264,7 +374,7 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="in_class_cars_task.html">1A Recap: Cars Task</a>
+      <a href="in_class_cars_task.html">1A: Cars Task</a>
     </li>
   </ul>
 </li>
@@ -289,8 +399,8 @@ $(document).ready(function () {
 
 <div id="purpose-of-this-site" class="section level2">
 <h2>Purpose of this site</h2>
-<p>Welcome to Rebecca’s revision website for the practical component to the Psychology 1A labs. This is a personal project of mine, not officially adopted by the teaching team but for the most part they are aware that it exists.</p>
-<p>The site is very much under construction, so patience please! You have your Moodle Forums, Slack Channels, lab leaders and GTAs for questions.</p>
+<p>Welcome to Rebecca’s revision website for the practical component to the Psychology level 1 labs. This is a personal project of mine, not officially adopted by the teaching team but for the most part they are aware that it exists.</p>
+<p>The site is very much under construction, so patience please! You have your Moodle Forums, Slack Channels, lab leaders and GTAs for questions. Changes will be logged at the bottom of this page.</p>
 <p>Based on the general feedback from the homeworks completed in 1A and feeback from teaching staff we have compiled this to serve as revision materials for those wishing to fortify and deepen understanding of the skills developed so far. It also allows those joining us for 1B to catch up on the materials missed in the first semester.</p>
 <p>Feedback is important. It allows us to reflect on our past performances and adapt to enhance our future performance. That goes for us as much as it does for you- so if you have any additional information for me please feel free to click on the “Feedback” button on the top right of the screen. <br></p>
 <center>
@@ -322,6 +432,28 @@ $(document).ready(function () {
 <p>I have made some practice tasks, anyone can have a bash at these and check their responses against the solutions (which are provided). Be honest with yourself, it’s the best way to proceed and learn!</p>
 <p>I plan to add more of these as I go, but as this is a personal project done in my own personal time it might be a little delayed!</p>
 </div>
+</div>
+<div id="change-log" class="section level2">
+<h2>Change Log</h2>
+<p>Changes that have been made for those who don’t want to wade through the Github versions.</p>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="88%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Date</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>31-1-19</td>
+<td>Cars task page clarifications, typos in pipes corrected, changelog addition, reorganising by semesters 1 and 2.</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
