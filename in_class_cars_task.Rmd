@@ -14,6 +14,10 @@ In response to feedback from the reps, here is a less abstract task and so is fo
 
 **I want to buy a car. Help me pick!**
 
+Just as the homeworks, the code chunks below have `NULL` parts. Delete the `NULL` and insert the answer you have come up with.
+
+**NOTE: I found an error in my previous iteration of this. I have corrected this now (15/01/2020). Please redownload the data files if you have downloaded them before this date.**
+
 If you are brand new to R I would recommend doing this in groups because we will never be coding in a vacuum! We Google things, talk to colleagues, look up discussion boards etc. 
 
 Talking through some tricky stuff can help us wrap our heads around it, and explaining things to others can enhance our own understanding.
@@ -28,85 +32,105 @@ You should also open a new R script or .Rmd file and save it with an appropriate
 
 I have given you some variable names below, but feel free to call them what you want. Bear in mind that the names *must make sense*, if someone else reads your code (or you revisit it at a later date) these will remind you of what they are! Also remember that if you call them something different you will need to use those different names when you come to call those objects later!
 
+## Opening R and a Blank File
+
+You should have downloaded the appropriate files `cars_for_sale.csv` and `prices.csv` and put them in a folder (directory) which you can safely save your work to (H or M drive if using a University computer, or wherever on your own machine).
+
+You should also have opened a new R script or .Rmd file and saved it with an appropriate name in this very same location. *It's just good practice to keep all files for the same project in the same place for ease of access*.
+
 ## Setting the Working Directory
 
 Set your working directory by going to `Session > Set Working Directory` and selecting `Choose Directory...`, or `To Source File Location` if all of your files are in the same folder together.
 
-## Required Packages
+## Library
 
 Load the appropriate package from the library. 
 
-```{r lib}
-# what package have we been using? What function loads it?
+```{r lib, eval=FALSE}
+library(NULL)
 ```
 
 ## Reading in our data files
 
 Read in the two .csv files `cars_for_sale.csv` and `prices.csv`.
 
-```{r read_csv, include = T}
+```{r read_csv}
+
 cars <- NULL
 prices <- NULL
+
 ```
 
-## Selecting variables to keep or remove
+## Selecting/Deselecting Variables
 
-I don't much care about whatever-wheel-drive the vehicle is, or what the highway fuel consumption rate is, and all of the cars on this list are manual gearboxes, so we can bin those three columns/variables.
+I don't much care about whatever-wheel-drive the vehicle is, or what the highway fuel consumption rate is, and all of the cars on this list are manual gearboxes, so we can bin those three columns. variables.
 
 Remove the columns `trans`, `hwy` and `drv` from the data table `cars`.
 
-```{r}
+```{r select}
+
 cars_selected <- NULL
+
 ```
 
-## Filtering unwanted rows
+## Filter by Rows
 
-There are some cars that just don't suit my needs, or plain just don't suit my life or driving style. The car must not be a 2 seater, an SUV or pick-up truck.
+There are some cars that just don't suit my needs, or plain just don't suit my life or driving style. The car must not be a 2 seater, an SUV or pick-up truck and the fuel type must not be diesel.
 
-Remove rows that relate to the `class` of `2seater`, `suv` and `pickup` from `cars_selected`.
+Remove rows that relate to the `class` of `2seater`, `suv` and `pickup` and `fl` type which is listed as `d` from `cars_selected`.
 
 ```{r filter}
+
 cars_filtered <- NULL
+
 ```
 
-## Calculating summary statistics by groups
+## Group and Summarise by a Variable
 
 I want a car that has better than average city fuel consumption. Before we can do that, we need to know what that value is. Additionally, this varies by fuel type.
 
 Group the `cars_filtered` data by fuel type `fl` and calculate the mean for each.
 
-```{r}
+```{r group_and_summarise}
+
 cars_grouped <- NULL
 
 cars_summarised <- NULL
+
 ```
 
-## Creating new columns
+## Add a New Column
 
-Add a column called `lower` to **`cars_filtered`** that gives a `TRUE` if the mean city fuel consumption is greater than or equal to that for the mean of `p` (given in `cars_summarised`), or `FALSE` if it is lower.
+Add a column called `lower` to **`cars_filtered`** that gives a `TRUE` if the mean city fuel consumption is greater than or equal to that for the mean of `p` (mean for petrol cars, given in `cars_summarised`), or `FALSE` if it is lower.
 
 **Remember that fuel economy = higher the miles per gallon the better!**
 
-```{r}
+```{r mutate}
+
 cars_mutated <- NULL
+
 ```
 
-## Joining data tables
+## Join Dataframes Together
 
-Now we need to add the pricing information from the other data file we imported.
+Now we need to add the pricing information.
 
-Join `cars_mutated` with `prices`. Note that we have **3** key variables here that we need to join on using `by=`. These are `manufacturer`, `model` and `year`.
+Join `cars_mutated` with `prices`. Note that we have **3** key variables here, `manufacturer`, `model` and `year`!
 
-```{r}
+```{r inner_join}
+
 cars_joined <- NULL
+
 ```
 
-## Arranging our data
+## Arrange a Dataframe by a Variable
 
-Arrange `cars_mutated` by `cty` in descending order. This will mean that the highest miles-per-gallon is at the top of the list.
+Arrange `cars_mutated` by `cty` in descending order.
 
-```{r}
+```{r arrange}
+
 cars_arranged <- NULL
+
 ```
 
 ## Name that Car!
@@ -120,28 +144,5 @@ Make a scatterplot of the `cty` fuel consumption on the x axis against `displ` e
 Brownie points for anyone who can level up the graph by making the points different colours for those above and below the mean for petrol cars.
 
 ```{r scatterplot}
-# remember to look at the page on ggplot, the help files and the cheatsheet if you need help
+# hint? ggplot() + ...?
 ```
-
-# Done?
-
-Want to check your work? Right click <a href="downloadables/cars_1a_SOLUTIONS.Rmd">solutions </a>and select "save as" to download the .Rmd.
-
-Once you are finished and satisfied that your answers are correct, arrange your .Rmd file so that it is easy to read and understand. You can do this by using new lines as discussed in the semester 1 page on the function <a href="mutate.html"> `mutate()`</a> (see the part on readability). Also insert comments using # and text in the parts between chunks.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -55,12 +55,12 @@ cars_selected <- select(cars, -trans, -hwy, -drv)
 
 ## filter()
 
-There are some cars that just don't suit my needs, or plain just don't suit my life or driving style. The car must not be a 2 seater, an SUV or pick-up truck.
+There are some cars that just don't suit my needs, or plain just don't suit my life or driving style. The car must not be a 2 seater, an SUV or pick-up truck and the fuel type must not be diesel.
 
-Remove rows that relate to the `class` of `2seater`, `suv` and `pickup` from `cars_selected`.
+Remove rows that relate to the `class` of `2seater`, `suv` and `pickup` and `fl` type which is listed as `d` from `cars_selected`.
 
 ```{r filter}
-cars_filtered <- filter(cars_selected, class != "2seater" & class != "suv" & class != "pickup")
+cars_filtered <- filter(cars_selected, class != "2seater", class != "suv", class != "pickup", fl !="d")
 ```
 
 ## group_by() and summarise()
@@ -79,13 +79,15 @@ cars_summarised <- summarise(cars_grouped, mean_cty = mean(cty))
 
 ## mutate()
 
-Add a column called `lower` to **`cars_filtered`** that gives a `TRUE` if the mean city fuel consumption is greater than or equal to that for the mean of `p` (given in `cars_summarised`), or `FALSE` if it is lower.
+Add a column called `lower` to **`cars_filtered`** that gives a `TRUE` if the mean city fuel consumption is greater than or equal to that for the mean of `p` (mean for petrol cars, given in `cars_summarised`), or `FALSE` if it is lower.
 
 **Remember that fuel economy = higher the miles per gallon the better!**
 
 ```{r mutate}
 cars_mutated <- mutate(cars_filtered, lower = cty >= 19.23529)
 # note the combination of the relational operators
+# the column called lower will read TRUE if cty is greater than or equal to the mean of 19.23529
+# the column called lower will read FALSE if cty is less than the mean of 19.23529
 ```
 
 ## inner_join()
@@ -97,6 +99,7 @@ Join `cars_mutated` with `prices`. Note that we have **3** key variables here, `
 ```{r inner_join}
 cars_joined <- inner_join(cars_mutated, prices, by = c("manufacturer", "model", "year"))
 # the function c() - otherwise called combine or concatenate- allows you to define multiple things together, in this case our key variables.
+
 ```
 
 ## arrange() 
@@ -104,7 +107,7 @@ cars_joined <- inner_join(cars_mutated, prices, by = c("manufacturer", "model", 
 Arrange `cars_mutated` by `cty` in descending order.
 
 ```{r arrange}
-cars_arranged <- arrange(cars_joined, desc(cty))
+cars_arranged <- arrange(cars_joined, desc(lower), desc(cty))
 # must include desc() for descending, otherwise goes to default ascending
 ```
 
@@ -112,7 +115,7 @@ cars_arranged <- arrange(cars_joined, desc(cty))
 
 Which car should I be buying then? And how much will it cost me? 
 
-A 2001 Volkswagen New Beetle at £4095! I wonder what colour it is...
+A 2005 Audi A4 at £3962! I wonder what colour it is...
 
 ## Graph it!
 
