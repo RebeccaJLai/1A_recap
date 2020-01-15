@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -70,9 +70,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -86,7 +84,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -191,8 +188,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -237,6 +232,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -249,20 +245,17 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
 
 
 
@@ -408,8 +401,7 @@ $(document).ready(function () {
 <h2>Data</h2>
 <p>Download the files <a href="downloadables/cars_for_sale.csv">cars_for_sale.csv</a> and <a href="downloadables/prices.csv">prices.csv</a> and put them in a folder (directory) which you can safely save your work to (H or M drive if on a university machine). The first .csv contains a list of cars for sale with some information that will help us decide and the second .csv their prices.</p>
 <p>You should also open a new R script or .Rmd file and save it with an appropriate name in this very same location. <em>It’s just good practice to keep all files for the same project in the same place for ease of access and organisation</em>.</p>
-<p>I have given you some variable names below, but feel free to call them what you want. Bear in mind that the names <em>must make sense</em>, if someone else reads your code (or you revisit it at a later date) these will remind you of what they are!</p>
-<p>Just as in the homeworks, they are given a value of <code>NULL</code> (nothing), <em>delete this part only</em> and replace it with the appropriate code.</p>
+<p>I have given you some variable names below, but feel free to call them what you want. Bear in mind that the names <em>must make sense</em>, if someone else reads your code (or you revisit it at a later date) these will remind you of what they are! Also remember that if you call them something different you will need to use those different names when you come to call those objects later!</p>
 </div>
 <div id="setting-the-working-directory" class="section level2">
 <h2>Setting the Working Directory</h2>
@@ -497,6 +489,23 @@ $(document).ready(function () {
 
 
 </script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

@@ -26,9 +26,7 @@ Download the  files <a href="downloadables/cars_for_sale.csv">cars_for_sale.csv<
 
 You should also open a new R script or .Rmd file and save it with an appropriate name in this very same location. *It's just good practice to keep all files for the same project in the same place for ease of access and organisation*.
 
-I have given you some variable names below, but feel free to call them what you want. Bear in mind that the names *must make sense*, if someone else reads your code (or you revisit it at a later date) these will remind you of what they are!
-
-Just as in the homeworks, they are given a value of `NULL` (nothing), *delete this part only* and replace it with the appropriate code.
+I have given you some variable names below, but feel free to call them what you want. Bear in mind that the names *must make sense*, if someone else reads your code (or you revisit it at a later date) these will remind you of what they are! Also remember that if you call them something different you will need to use those different names when you come to call those objects later!
 
 ## Setting the Working Directory
 

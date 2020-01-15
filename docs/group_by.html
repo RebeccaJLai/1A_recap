@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 
 <head>
 
 <meta charset="utf-8" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
 
@@ -73,9 +73,7 @@ h6 {
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -89,7 +87,6 @@ code {
 }
 img {
   max-width:100%;
-  height: auto;
 }
 .tabbed-pane {
   padding-top: 12px;
@@ -194,8 +191,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -240,6 +235,7 @@ $(document).ready(function () {
   border: none;
   display: inline-block;
   border-radius: 4px;
+  background-color: transparent;
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li {
@@ -252,48 +248,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = false;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -307,6 +264,12 @@ $(document).ready(function ()  {
 }
 }
 
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
 
 .toc-content {
   padding-left: 30px;
@@ -342,8 +305,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -358,6 +319,16 @@ div.tocify {
 }
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -524,34 +495,31 @@ div.tocify {
 head(dat_grouped) </code></pre>
 <pre><code>## # A tibble: 6 x 17
 ## # Groups:   sex [1]
-##   id    sex   ethgroup group   age t_non t_self lt_non lt_self st_non
-##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-## 1 P2    fema~ white    grou~    18  4.62      7   3.96       7   4.12
-## 2 P3    fema~ white    grou~    18  4.62      4   4.04       4   4.12
-## 3 P4    fema~ white    grou~    18  5.38      8   4.75       2   5.06
-## 4 P9    fema~ white    grou~    18  2.88      3   3.38       4   3.25
-## 5 P11   fema~ white    grou~    18  4.75      7   4.26       6   4.33
-## 6 P12   fema~ white    grou~    18  4.88      5   4.48       4   4.47
-## # ... with 7 more variables: st_self &lt;dbl&gt;, ybro &lt;dbl&gt;, ysis &lt;dbl&gt;,
-## #   obro &lt;dbl&gt;, osis &lt;dbl&gt;, t_diff &lt;dbl&gt;, st_diff &lt;dbl&gt;</code></pre>
+##   id    sex    ethgroup group       age t_non t_self lt_non lt_self st_non st_self  ybro  ysis  obro  osis t_diff st_diff
+##   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+## 1 P2    female white    group 0_1    18  4.62      7   3.96       7   4.12       4     1     1     0     0  2.38   -0.125
+## 2 P3    female white    group 0_1    18  4.62      4   4.04       4   4.12       4     2     0     0     0 -0.625  -0.125
+## 3 P4    female white    group 0_1    18  5.38      8   4.75       2   5.06       4     0     0     1     0  2.62   -1.06 
+## 4 P9    female white    group 0_1    18  2.88      3   3.38       4   3.25       3     2     0     0     0  0.125  -0.25 
+## 5 P11   female white    group 1_1    18  4.75      7   4.26       6   4.33       3     1     0     1     0  2.25   -1.33 
+## 6 P12   female white    group 1_1    18  4.88      5   4.48       4   4.47       1     1     1     0     1  0.125  -3.47</code></pre>
 <pre class="r"><code># only prints the first 10, acknowledges the size of the set the rest of the set... and all groups (2!)
 print(dat_grouped) </code></pre>
 <pre><code>## # A tibble: 133 x 17
 ## # Groups:   sex [2]
-##    id    sex   ethgroup group   age t_non t_self lt_non lt_self st_non
-##    &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
-##  1 P2    fema~ white    grou~    18  4.62      7   3.96       7   4.12
-##  2 P3    fema~ white    grou~    18  4.62      4   4.04       4   4.12
-##  3 P4    fema~ white    grou~    18  5.38      8   4.75       2   5.06
-##  4 P9    fema~ white    grou~    18  2.88      3   3.38       4   3.25
-##  5 P11   fema~ white    grou~    18  4.75      7   4.26       6   4.33
-##  6 P12   fema~ white    grou~    18  4.88      5   4.48       4   4.47
-##  7 P13   fema~ white    grou~    18  3.75      4   4.04       5   4.07
-##  8 P14   fema~ white    grou~    18  4.88      6   4.78       5   4.8 
-##  9 P16   fema~ white    grou~    18  4         3   4.65       7   4.27
-## 10 P22   fema~ white    grou~    18  2.88      4   2.79       6   2.88
-## # ... with 123 more rows, and 7 more variables: st_self &lt;dbl&gt;, ybro &lt;dbl&gt;,
-## #   ysis &lt;dbl&gt;, obro &lt;dbl&gt;, osis &lt;dbl&gt;, t_diff &lt;dbl&gt;, st_diff &lt;dbl&gt;</code></pre>
+##    id    sex    ethgroup group       age t_non t_self lt_non lt_self st_non st_self  ybro  ysis  obro  osis t_diff st_diff
+##    &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;
+##  1 P2    female white    group 0_1    18  4.62      7   3.96       7   4.12       4     1     1     0     0  2.38   -0.125
+##  2 P3    female white    group 0_1    18  4.62      4   4.04       4   4.12       4     2     0     0     0 -0.625  -0.125
+##  3 P4    female white    group 0_1    18  5.38      8   4.75       2   5.06       4     0     0     1     0  2.62   -1.06 
+##  4 P9    female white    group 0_1    18  2.88      3   3.38       4   3.25       3     2     0     0     0  0.125  -0.25 
+##  5 P11   female white    group 1_1    18  4.75      7   4.26       6   4.33       3     1     0     1     0  2.25   -1.33 
+##  6 P12   female white    group 1_1    18  4.88      5   4.48       4   4.47       1     1     1     0     1  0.125  -3.47 
+##  7 P13   female white    group 1_1    18  3.75      4   4.04       5   4.07       7     0     0     0     0  0.25    2.93 
+##  8 P14   female white    group 1_1    18  4.88      6   4.78       5   4.8        4     3     0     3     0  1.12   -0.800
+##  9 P16   female white    group 1_1    18  4         3   4.65       7   4.27       5     0     0     0     1 -1       0.733
+## 10 P22   female white    group 2_1    18  2.88      4   2.79       6   2.88       4     0     0     1     0  1.12    1.12 
+## # … with 123 more rows</code></pre>
 <p>Notice in the second line of the output for <code>print(dat_grouped)</code>? <code>"Groups: sex [2]"</code>! Data is grouped by the variable “sex”, of which we have “2” in our table (only males and females in our sample). <code>print()</code> will only “print out” the first 10 rows of any data table (unless you specify otherwise). You are told about the remainder at the end… our “123 more rows” indicated at the bottom of the print out.</p>
 <p>This grouping is a pre-cursor to more useful operations which are to follow in the next section!</p>
 <div id="points-to-remember" class="section level3">
@@ -590,6 +558,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
